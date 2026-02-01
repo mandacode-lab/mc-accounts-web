@@ -7,7 +7,7 @@ export default defineConfig({
       target: 'https://accounts.mandacode.com/api/swagger/doc.json',
     },
     output: {
-      target: './lib/api/accounts.ts',
+      target: './src/services/accounts/generated.ts',
       client: 'react-query',
     },
   },

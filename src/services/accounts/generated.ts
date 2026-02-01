@@ -10,9 +10,14 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryClient,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -197,13 +202,13 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
  */
 export const useDeleteV1Account = <TError = MerrmidErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError,void, TContext>, fetch?: RequestInit}
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteV1Account>>,
         TError,
         void,
         TContext
       > => {
-      return useMutation(getDeleteV1AccountMutationOptions(options));
+      return useMutation(getDeleteV1AccountMutationOptions(options), queryClient);
     }
     
 /**
@@ -270,7 +275,7 @@ export const getGetV1MfaQueryKey = () => {
     }
 
     
-export const getGetV1MfaQueryOptions = <TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>, fetch?: RequestInit}
+export const getGetV1MfaQueryOptions = <TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -285,25 +290,49 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1MfaQueryResult = NonNullable<Awaited<ReturnType<typeof getV1Mfa>>>
 export type GetV1MfaQueryError = MerrmidErrorResponse
 
 
+export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1Mfa>>,
+          TError,
+          Awaited<ReturnType<typeof getV1Mfa>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1Mfa>>,
+          TError,
+          Awaited<ReturnType<typeof getV1Mfa>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List MFA devices
  */
 
 export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>, fetch?: RequestInit}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetV1MfaQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -410,13 +439,13 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
  */
 export const usePostV1MfaTotp = <TError = MerrmidErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError,{data: InternalAdapterHttpHandlerMfaAssignTOTPRequest}, TContext>, fetch?: RequestInit}
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postV1MfaTotp>>,
         TError,
         {data: InternalAdapterHttpHandlerMfaAssignTOTPRequest},
         TContext
       > => {
-      return useMutation(getPostV1MfaTotpMutationOptions(options));
+      return useMutation(getPostV1MfaTotpMutationOptions(options), queryClient);
     }
     
 /**
@@ -498,7 +527,7 @@ export const getGetV1MfaMfaIdQueryKey = (mfaId: string,) => {
     }
 
     
-export const getGetV1MfaMfaIdQueryOptions = <TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(mfaId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>, fetch?: RequestInit}
+export const getGetV1MfaMfaIdQueryOptions = <TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -513,25 +542,49 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, enabled: !!(mfaId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(mfaId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1MfaMfaIdQueryResult = NonNullable<Awaited<ReturnType<typeof getV1MfaMfaId>>>
 export type GetV1MfaMfaIdQueryError = MerrmidErrorResponse
 
 
+export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
+ mfaId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1MfaMfaId>>,
+          TError,
+          Awaited<ReturnType<typeof getV1MfaMfaId>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
+ mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1MfaMfaId>>,
+          TError,
+          Awaited<ReturnType<typeof getV1MfaMfaId>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
+ mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get MFA device
  */
 
 export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
- mfaId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>, fetch?: RequestInit}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+ mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetV1MfaMfaIdQueryOptions(mfaId,options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -649,13 +702,13 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
  */
 export const usePutV1MfaMfaId = <TError = MerrmidErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest}, TContext>, fetch?: RequestInit}
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof putV1MfaMfaId>>,
         TError,
         {mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest},
         TContext
       > => {
-      return useMutation(getPutV1MfaMfaIdMutationOptions(options));
+      return useMutation(getPutV1MfaMfaIdMutationOptions(options), queryClient);
     }
     
 /**
@@ -760,13 +813,13 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
  */
 export const useDeleteV1MfaMfaId = <TError = MerrmidErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError,{mfaId: string}, TContext>, fetch?: RequestInit}
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteV1MfaMfaId>>,
         TError,
         {mfaId: string},
         TContext
       > => {
-      return useMutation(getDeleteV1MfaMfaIdMutationOptions(options));
+      return useMutation(getDeleteV1MfaMfaIdMutationOptions(options), queryClient);
     }
     
 /**
@@ -833,7 +886,7 @@ export const getGetV1ProfileQueryKey = () => {
     }
 
     
-export const getGetV1ProfileQueryOptions = <TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>, fetch?: RequestInit}
+export const getGetV1ProfileQueryOptions = <TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -848,25 +901,49 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1ProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getV1Profile>>>
 export type GetV1ProfileQueryError = MerrmidErrorResponse
 
 
+export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1Profile>>,
+          TError,
+          Awaited<ReturnType<typeof getV1Profile>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getV1Profile>>,
+          TError,
+          Awaited<ReturnType<typeof getV1Profile>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get profile
  */
 
 export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>, fetch?: RequestInit}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetV1ProfileQueryOptions(options)
 
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -973,11 +1050,11 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
  */
 export const usePutV1Profile = <TError = MerrmidErrorResponse,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError,{data: InternalAdapterHttpHandlerProfileUpdateProfileRequest}, TContext>, fetch?: RequestInit}
- ): UseMutationResult<
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof putV1Profile>>,
         TError,
         {data: InternalAdapterHttpHandlerProfileUpdateProfileRequest},
         TContext
       > => {
-      return useMutation(getPutV1ProfileMutationOptions(options));
+      return useMutation(getPutV1ProfileMutationOptions(options), queryClient);
     }
