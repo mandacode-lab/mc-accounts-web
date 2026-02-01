@@ -11,4 +11,13 @@ export default defineConfig({
       client: 'react-query',
     },
   },
+  auth: {
+    input: {
+      target: 'https://auth.mandacode.com/api/swagger/doc.json',
+    },
+    output: {
+      target: './src/lib/api/auth.ts',
+      client: 'react-query',
+    },
+  },
 });
