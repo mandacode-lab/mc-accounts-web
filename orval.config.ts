@@ -10,13 +10,7 @@ export default defineConfig({
       target: './src/lib/api/accounts.ts',
       schemas: './src/lib/api/schemas/accounts',
       client: 'react-query',
-      httpClient: 'axios',
-      override: {
-        mutator: {
-          path: './src/lib/api/client.ts',
-          name: 'accountsClient',
-        }
-      }
+      baseUrl: 'https://accounts.mandacode.com/api',
     },
   },
   auth: {
@@ -25,14 +19,9 @@ export default defineConfig({
     },
     output: {
       target: './src/lib/api/auth.ts',
+      schemas: './src/lib/api/schemas/auth',
       client: 'react-query',
-      httpClient: 'axios',
-      override: {
-        mutator: {
-          path: './src/lib/api/client.ts',
-          name: 'authClient',
-        }
-      }
+      baseUrl: 'https://auth.mandacode.com/api',
     },
   },
 });
