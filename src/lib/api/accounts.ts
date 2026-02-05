@@ -32,6 +32,8 @@ import type {
   InternalAdapterHttpHandlerMfaRemoveMFAResponse,
   InternalAdapterHttpHandlerMfaUpdateMFARequest,
   InternalAdapterHttpHandlerMfaUpdateMFAResponse,
+  InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest,
+  InternalAdapterHttpHandlerMfaVerifyTOTPAssignResponse,
   InternalAdapterHttpHandlerProfileGetProfileResponse,
   InternalAdapterHttpHandlerProfileUpdateProfileRequest,
   InternalAdapterHttpHandlerProfileUpdateProfileResponse,
@@ -377,6 +379,119 @@ export const usePostV1MfaTotp = <TError = MerrmidErrorResponse,
         TContext
       > => {
       return useMutation(getPostV1MfaTotpMutationOptions(options), queryClient);
+    }
+    
+/**
+ * Verify the TOTP code after assigning a new TOTP. The TOTP must be verified to become active.
+ * @summary Verify TOTP Assignment
+ */
+export type postV1MfaTotpMfaIdVerifyResponse200 = {
+  data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignResponse
+  status: 200
+}
+
+export type postV1MfaTotpMfaIdVerifyResponse400 = {
+  data: MerrmidErrorResponse
+  status: 400
+}
+
+export type postV1MfaTotpMfaIdVerifyResponse401 = {
+  data: MerrmidErrorResponse
+  status: 401
+}
+
+export type postV1MfaTotpMfaIdVerifyResponse404 = {
+  data: MerrmidErrorResponse
+  status: 404
+}
+
+export type postV1MfaTotpMfaIdVerifyResponse500 = {
+  data: MerrmidErrorResponse
+  status: 500
+}
+    
+export type postV1MfaTotpMfaIdVerifyResponseSuccess = (postV1MfaTotpMfaIdVerifyResponse200) & {
+  headers: Headers;
+};
+export type postV1MfaTotpMfaIdVerifyResponseError = (postV1MfaTotpMfaIdVerifyResponse400 | postV1MfaTotpMfaIdVerifyResponse401 | postV1MfaTotpMfaIdVerifyResponse404 | postV1MfaTotpMfaIdVerifyResponse500) & {
+  headers: Headers;
+};
+
+export type postV1MfaTotpMfaIdVerifyResponse = (postV1MfaTotpMfaIdVerifyResponseSuccess | postV1MfaTotpMfaIdVerifyResponseError)
+
+export const getPostV1MfaTotpMfaIdVerifyUrl = (mfaId: string,) => {
+
+
+  
+
+  return `https://accounts.mandacode.com/api/v1/mfa/totp/${mfaId}/verify`
+}
+
+export const postV1MfaTotpMfaIdVerify = async (mfaId: string,
+    internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest, options?: RequestInit): Promise<postV1MfaTotpMfaIdVerifyResponse> => {
+  
+  const res = await fetch(getPostV1MfaTotpMfaIdVerifyUrl(mfaId),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest,)
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: postV1MfaTotpMfaIdVerifyResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as postV1MfaTotpMfaIdVerifyResponse
+}
+
+
+
+
+export const getPostV1MfaTotpMfaIdVerifyMutationOptions = <TError = MerrmidErrorResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext> => {
+
+const mutationKey = ['postV1MfaTotpMfaIdVerify'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>, {mfaId: string;data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}> = (props) => {
+          const {mfaId,data} = props ?? {};
+
+          return  postV1MfaTotpMfaIdVerify(mfaId,data,fetchOptions)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostV1MfaTotpMfaIdVerifyMutationResult = NonNullable<Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>>
+    export type PostV1MfaTotpMfaIdVerifyMutationBody = InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest
+    export type PostV1MfaTotpMfaIdVerifyMutationError = MerrmidErrorResponse
+
+    /**
+ * @summary Verify TOTP Assignment
+ */
+export const usePostV1MfaTotpMfaIdVerify = <TError = MerrmidErrorResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1MfaTotpMfaIdVerify>>,
+        TError,
+        {mfaId: string;data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest},
+        TContext
+      > => {
+      return useMutation(getPostV1MfaTotpMfaIdVerifyMutationOptions(options), queryClient);
     }
     
 /**

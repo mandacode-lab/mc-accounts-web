@@ -14,6 +14,8 @@ export * from './internalAdapterHttpHandlerMfaMFAItemResponse';
 export * from './internalAdapterHttpHandlerMfaRemoveMFAResponse';
 export * from './internalAdapterHttpHandlerMfaUpdateMFARequest';
 export * from './internalAdapterHttpHandlerMfaUpdateMFAResponse';
+export * from './internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest';
+export * from './internalAdapterHttpHandlerMfaVerifyTOTPAssignResponse';
 export * from './internalAdapterHttpHandlerProfileGetProfileResponse';
 export * from './internalAdapterHttpHandlerProfileUpdateProfileRequest';
 export * from './internalAdapterHttpHandlerProfileUpdateProfileResponse';
