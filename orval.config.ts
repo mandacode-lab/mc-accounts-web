@@ -8,7 +8,15 @@ export default defineConfig({
     },
     output: {
       target: './src/lib/api/accounts.ts',
+      schemas: './src/lib/api/schemas/accounts',
       client: 'react-query',
+      httpClient: 'axios',
+      override: {
+        mutator: {
+          path: './src/lib/api/client.ts',
+          name: 'accountsClient',
+        }
+      }
     },
   },
   auth: {
@@ -18,6 +26,13 @@ export default defineConfig({
     output: {
       target: './src/lib/api/auth.ts',
       client: 'react-query',
+      httpClient: 'axios',
+      override: {
+        mutator: {
+          path: './src/lib/api/client.ts',
+          name: 'authClient',
+        }
+      }
     },
   },
 });
