@@ -7,5 +7,6 @@
  */
 
 export interface InternalAdapterHttpHandlerMfaVerifyTOTPAssignResponse {
+  mfa_id?: string;
   verified?: boolean;
 }

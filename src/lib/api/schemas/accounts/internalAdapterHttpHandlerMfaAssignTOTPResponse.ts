@@ -7,5 +7,7 @@
  */
 
 export interface InternalAdapterHttpHandlerMfaAssignTOTPResponse {
+  mfa_id?: string;
   qr_code_url?: string;
+  session_key?: string;
 }

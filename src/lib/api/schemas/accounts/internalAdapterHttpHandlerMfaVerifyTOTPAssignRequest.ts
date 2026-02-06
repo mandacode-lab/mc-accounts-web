@@ -7,5 +7,6 @@
  */
 
 export interface InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest {
+  session_key: string;
   totp_code: string;
 }

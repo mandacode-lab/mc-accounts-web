@@ -11,4 +11,5 @@ export interface InternalAdapterHttpHandlerMfaMFAItemResponse {
   mfa_id?: string;
   mfa_type?: string;
   name?: string;
+  verified?: boolean;
 }
