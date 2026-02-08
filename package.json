@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "format": "prettier --write .",
+    "lint": "biome check",
+    "format": "biome format --write",
     "knip": "knip"
   },
   "dependencies": {
@@ -24,18 +24,16 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^25.2.0",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "ajv": "^8",
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25.2.2",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "ajv": "^8.17.1",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "knip": "^5.83.0",
+    "knip": "^5.83.1",
     "orval": "^8.2.0",
-    "prettier": "3.8.1",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
