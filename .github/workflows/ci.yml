@@ -89,7 +89,7 @@ jobs:
         [
           {"dockerfile": "Dockerfile"},
         ]
-      base-path: "build"
+      base-path: ""
       enable-hadolint: true
       enable-trivy: true
       trivy-severity: "HIGH,CRITICAL"
