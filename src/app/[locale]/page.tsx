@@ -5,6 +5,8 @@ import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { ROUTES, getLocalePath } from "@/lib/constants";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -26,6 +28,12 @@ export default function Home() {
 
   return (
     <div className="bg-secondary min-h-screen">
+      {/* Header controls */}
+      <div className="fixed top-4 right-4 flex items-center gap-2 z-50">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+
       <div className="flex min-h-screen items-center justify-center px-4 py-12">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-16">

@@ -47,7 +47,7 @@ export type postV1AuthLogoutResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1AuthLogoutResponseSuccess = (postV1AuthLogoutResponse200) & {
   headers: Headers;
 };
@@ -60,24 +60,24 @@ export type postV1AuthLogoutResponse = (postV1AuthLogoutResponseSuccess | postV1
 export const getPostV1AuthLogoutUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/auth/logout`
 }
 
-export const postV1AuthLogout = async (options?: RequestInit): Promise<postV1AuthLogoutResponse> => {
-
+export const postV1AuthLogout = async ( options?: RequestInit): Promise<postV1AuthLogoutResponse> => {
+  
   const res = await fetch(getPostV1AuthLogoutUrl(),
-    {
-      ...options,
-      method: 'POST'
-
-
-    }
-  )
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1AuthLogoutResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1AuthLogoutResponse
 }
@@ -86,51 +86,50 @@ export const postV1AuthLogout = async (options?: RequestInit): Promise<postV1Aut
 
 
 export const getPostV1AuthLogoutMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError, void, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError, void, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError,void, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError,void, TContext> => {
 
-  const mutationKey = ['postV1AuthLogout'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1AuthLogout'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1AuthLogout>>, void> = () => {
+          
+
+          return  postV1AuthLogout(fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1AuthLogout>>, void> = () => {
-
-
-    return postV1AuthLogout(fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1AuthLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof postV1AuthLogout>>>
+    
+    export type PostV1AuthLogoutMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1AuthLogoutMutationResult = NonNullable<Awaited<ReturnType<typeof postV1AuthLogout>>>
-
-export type PostV1AuthLogoutMutationError = MerrmidErrorResponse
-
-/**
-* @summary Logout
-*/
+    /**
+ * @summary Logout
+ */
 export const usePostV1AuthLogout = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError, void, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1AuthLogout>>,
-      TError,
-      void,
-      TContext
-    > => {
-  return useMutation(getPostV1AuthLogoutMutationOptions(options), queryClient);
-}
-
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1AuthLogout>>, TError,void, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1AuthLogout>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getPostV1AuthLogoutMutationOptions(options), queryClient);
+    }
+    
 /**
  * Change the authenticated user's password
  * @summary Change password
@@ -154,7 +153,7 @@ export type postV1AuthPasswordResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1AuthPasswordResponseSuccess = (postV1AuthPasswordResponse200) & {
   headers: Headers;
 };
@@ -167,25 +166,25 @@ export type postV1AuthPasswordResponse = (postV1AuthPasswordResponseSuccess | po
 export const getPostV1AuthPasswordUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/auth/password`
 }
 
 export const postV1AuthPassword = async (passwordChangePasswordRequest: PasswordChangePasswordRequest, options?: RequestInit): Promise<postV1AuthPasswordResponse> => {
-
+  
   const res = await fetch(getPostV1AuthPasswordUrl(),
-    {
-      ...options,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...options?.headers },
-      body: JSON.stringify(
-        passwordChangePasswordRequest,)
-    }
-  )
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      passwordChangePasswordRequest,)
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1AuthPasswordResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1AuthPasswordResponse
 }
@@ -194,51 +193,50 @@ export const postV1AuthPassword = async (passwordChangePasswordRequest: Password
 
 
 export const getPostV1AuthPasswordMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError, { data: PasswordChangePasswordRequest }, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError, { data: PasswordChangePasswordRequest }, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError,{data: PasswordChangePasswordRequest}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError,{data: PasswordChangePasswordRequest}, TContext> => {
 
-  const mutationKey = ['postV1AuthPassword'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1AuthPassword'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1AuthPassword>>, {data: PasswordChangePasswordRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postV1AuthPassword(data,fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1AuthPassword>>, { data: PasswordChangePasswordRequest }> = (props) => {
-    const { data } = props ?? {};
-
-    return postV1AuthPassword(data, fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1AuthPasswordMutationResult = NonNullable<Awaited<ReturnType<typeof postV1AuthPassword>>>
+    export type PostV1AuthPasswordMutationBody = PasswordChangePasswordRequest
+    export type PostV1AuthPasswordMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1AuthPasswordMutationResult = NonNullable<Awaited<ReturnType<typeof postV1AuthPassword>>>
-export type PostV1AuthPasswordMutationBody = PasswordChangePasswordRequest
-export type PostV1AuthPasswordMutationError = MerrmidErrorResponse
-
-/**
-* @summary Change password
-*/
+    /**
+ * @summary Change password
+ */
 export const usePostV1AuthPassword = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError, { data: PasswordChangePasswordRequest }, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1AuthPassword>>,
-      TError,
-      { data: PasswordChangePasswordRequest },
-      TContext
-    > => {
-  return useMutation(getPostV1AuthPasswordMutationOptions(options), queryClient);
-}
-
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1AuthPassword>>, TError,{data: PasswordChangePasswordRequest}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1AuthPassword>>,
+        TError,
+        {data: PasswordChangePasswordRequest},
+        TContext
+      > => {
+      return useMutation(getPostV1AuthPasswordMutationOptions(options), queryClient);
+    }
+    
 /**
  * Initiate the login process with identity and password
  * @summary Initiate login
@@ -262,7 +260,7 @@ export type postV1LoginResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1LoginResponseSuccess = (postV1LoginResponse200) & {
   headers: Headers;
 };
@@ -275,25 +273,25 @@ export type postV1LoginResponse = (postV1LoginResponseSuccess | postV1LoginRespo
 export const getPostV1LoginUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/login`
 }
 
 export const postV1Login = async (internalAdapterHttpHandlerAuthLoginInitLoginRequest: InternalAdapterHttpHandlerAuthLoginInitLoginRequest, options?: RequestInit): Promise<postV1LoginResponse> => {
-
+  
   const res = await fetch(getPostV1LoginUrl(),
-    {
-      ...options,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...options?.headers },
-      body: JSON.stringify(
-        internalAdapterHttpHandlerAuthLoginInitLoginRequest,)
-    }
-  )
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      internalAdapterHttpHandlerAuthLoginInitLoginRequest,)
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1LoginResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1LoginResponse
 }
@@ -302,51 +300,50 @@ export const postV1Login = async (internalAdapterHttpHandlerAuthLoginInitLoginRe
 
 
 export const getPostV1LoginMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError, { data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest }, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError, { data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest }, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError,{data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError,{data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest}, TContext> => {
 
-  const mutationKey = ['postV1Login'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1Login'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1Login>>, {data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postV1Login(data,fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1Login>>, { data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest }> = (props) => {
-    const { data } = props ?? {};
-
-    return postV1Login(data, fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1LoginMutationResult = NonNullable<Awaited<ReturnType<typeof postV1Login>>>
+    export type PostV1LoginMutationBody = InternalAdapterHttpHandlerAuthLoginInitLoginRequest
+    export type PostV1LoginMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1LoginMutationResult = NonNullable<Awaited<ReturnType<typeof postV1Login>>>
-export type PostV1LoginMutationBody = InternalAdapterHttpHandlerAuthLoginInitLoginRequest
-export type PostV1LoginMutationError = MerrmidErrorResponse
-
-/**
-* @summary Initiate login
-*/
+    /**
+ * @summary Initiate login
+ */
 export const usePostV1Login = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError, { data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest }, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1Login>>,
-      TError,
-      { data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest },
-      TContext
-    > => {
-  return useMutation(getPostV1LoginMutationOptions(options), queryClient);
-}
-
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1Login>>, TError,{data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1Login>>,
+        TError,
+        {data: InternalAdapterHttpHandlerAuthLoginInitLoginRequest},
+        TContext
+      > => {
+      return useMutation(getPostV1LoginMutationOptions(options), queryClient);
+    }
+    
 /**
  * Complete the login process for users without MFA enabled
  * @summary Complete login (no MFA)
@@ -365,7 +362,7 @@ export type postV1LoginCompleteNoMfaResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1LoginCompleteNoMfaResponseSuccess = (postV1LoginCompleteNoMfaResponse200) & {
   headers: Headers;
 };
@@ -378,25 +375,25 @@ export type postV1LoginCompleteNoMfaResponse = (postV1LoginCompleteNoMfaResponse
 export const getPostV1LoginCompleteNoMfaUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/login/complete-no-mfa`
 }
 
 export const postV1LoginCompleteNoMfa = async (internalAdapterHttpHandlerAuthLoginNoMFALoginRequest: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest, options?: RequestInit): Promise<postV1LoginCompleteNoMfaResponse> => {
-
+  
   const res = await fetch(getPostV1LoginCompleteNoMfaUrl(),
-    {
-      ...options,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...options?.headers },
-      body: JSON.stringify(
-        internalAdapterHttpHandlerAuthLoginNoMFALoginRequest,)
-    }
-  )
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      internalAdapterHttpHandlerAuthLoginNoMFALoginRequest,)
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1LoginCompleteNoMfaResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1LoginCompleteNoMfaResponse
 }
@@ -405,51 +402,50 @@ export const postV1LoginCompleteNoMfa = async (internalAdapterHttpHandlerAuthLog
 
 
 export const getPostV1LoginCompleteNoMfaMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError, { data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest }, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError, { data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest }, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError,{data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError,{data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest}, TContext> => {
 
-  const mutationKey = ['postV1LoginCompleteNoMfa'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1LoginCompleteNoMfa'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, {data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postV1LoginCompleteNoMfa(data,fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, { data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest }> = (props) => {
-    const { data } = props ?? {};
-
-    return postV1LoginCompleteNoMfa(data, fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1LoginCompleteNoMfaMutationResult = NonNullable<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>>
+    export type PostV1LoginCompleteNoMfaMutationBody = InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest
+    export type PostV1LoginCompleteNoMfaMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1LoginCompleteNoMfaMutationResult = NonNullable<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>>
-export type PostV1LoginCompleteNoMfaMutationBody = InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest
-export type PostV1LoginCompleteNoMfaMutationError = MerrmidErrorResponse
-
-/**
-* @summary Complete login (no MFA)
-*/
+    /**
+ * @summary Complete login (no MFA)
+ */
 export const usePostV1LoginCompleteNoMfa = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError, { data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest }, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>,
-      TError,
-      { data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest },
-      TContext
-    > => {
-  return useMutation(getPostV1LoginCompleteNoMfaMutationOptions(options), queryClient);
-}
-
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>, TError,{data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1LoginCompleteNoMfa>>,
+        TError,
+        {data: InternalAdapterHttpHandlerAuthLoginNoMFALoginRequest},
+        TContext
+      > => {
+      return useMutation(getPostV1LoginCompleteNoMfaMutationOptions(options), queryClient);
+    }
+    
 /**
  * Complete the login process with TOTP (Time-based One-Time Password) verification
  * @summary Complete login (TOTP)
@@ -473,7 +469,7 @@ export type postV1LoginCompleteTotpResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1LoginCompleteTotpResponseSuccess = (postV1LoginCompleteTotpResponse200) & {
   headers: Headers;
 };
@@ -486,25 +482,25 @@ export type postV1LoginCompleteTotpResponse = (postV1LoginCompleteTotpResponseSu
 export const getPostV1LoginCompleteTotpUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/login/complete-totp`
 }
 
 export const postV1LoginCompleteTotp = async (internalAdapterHttpHandlerAuthLoginVerifyTOTPRequest: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest, options?: RequestInit): Promise<postV1LoginCompleteTotpResponse> => {
-
+  
   const res = await fetch(getPostV1LoginCompleteTotpUrl(),
-    {
-      ...options,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...options?.headers },
-      body: JSON.stringify(
-        internalAdapterHttpHandlerAuthLoginVerifyTOTPRequest,)
-    }
-  )
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      internalAdapterHttpHandlerAuthLoginVerifyTOTPRequest,)
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1LoginCompleteTotpResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1LoginCompleteTotpResponse
 }
@@ -513,51 +509,50 @@ export const postV1LoginCompleteTotp = async (internalAdapterHttpHandlerAuthLogi
 
 
 export const getPostV1LoginCompleteTotpMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError, { data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest }, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError, { data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest }, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError,{data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError,{data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest}, TContext> => {
 
-  const mutationKey = ['postV1LoginCompleteTotp'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1LoginCompleteTotp'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, {data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postV1LoginCompleteTotp(data,fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, { data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest }> = (props) => {
-    const { data } = props ?? {};
-
-    return postV1LoginCompleteTotp(data, fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1LoginCompleteTotpMutationResult = NonNullable<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>>
+    export type PostV1LoginCompleteTotpMutationBody = InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest
+    export type PostV1LoginCompleteTotpMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1LoginCompleteTotpMutationResult = NonNullable<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>>
-export type PostV1LoginCompleteTotpMutationBody = InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest
-export type PostV1LoginCompleteTotpMutationError = MerrmidErrorResponse
-
-/**
-* @summary Complete login (TOTP)
-*/
+    /**
+ * @summary Complete login (TOTP)
+ */
 export const usePostV1LoginCompleteTotp = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError, { data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest }, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1LoginCompleteTotp>>,
-      TError,
-      { data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest },
-      TContext
-    > => {
-  return useMutation(getPostV1LoginCompleteTotpMutationOptions(options), queryClient);
-}
-
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1LoginCompleteTotp>>, TError,{data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest}, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1LoginCompleteTotp>>,
+        TError,
+        {data: InternalAdapterHttpHandlerAuthLoginVerifyTOTPRequest},
+        TContext
+      > => {
+      return useMutation(getPostV1LoginCompleteTotpMutationOptions(options), queryClient);
+    }
+    
 /**
  * Refresh the access token using a refresh token from session cookie
  * @summary Refresh token
@@ -576,7 +571,7 @@ export type postV1TokenRefreshResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-
+    
 export type postV1TokenRefreshResponseSuccess = (postV1TokenRefreshResponse200) & {
   headers: Headers;
 };
@@ -589,24 +584,24 @@ export type postV1TokenRefreshResponse = (postV1TokenRefreshResponseSuccess | po
 export const getPostV1TokenRefreshUrl = () => {
 
 
-
+  
 
   return `https://auth.mandacode.com/api/v1/token/refresh`
 }
 
-export const postV1TokenRefresh = async (options?: RequestInit): Promise<postV1TokenRefreshResponse> => {
-
+export const postV1TokenRefresh = async ( options?: RequestInit): Promise<postV1TokenRefreshResponse> => {
+  
   const res = await fetch(getPostV1TokenRefreshUrl(),
-    {
-      ...options,
-      method: 'POST'
-
-
-    }
-  )
+  {      
+    ...options,
+    method: 'POST'
+    
+    
+  }
+)
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
+  
   const data: postV1TokenRefreshResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1TokenRefreshResponse
 }
@@ -615,47 +610,46 @@ export const postV1TokenRefresh = async (options?: RequestInit): Promise<postV1T
 
 
 export const getPostV1TokenRefreshMutationOptions = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError, void, TContext>, fetch?: RequestInit }
-  ): UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError, void, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError,void, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError,void, TContext> => {
 
-  const mutationKey = ['postV1TokenRefresh'];
-  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
-    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+const mutationKey = ['postV1TokenRefresh'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey, }, fetch: undefined };
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TokenRefresh>>, void> = () => {
+          
+
+          return  postV1TokenRefresh(fetchOptions)
+        }
 
 
 
-
-  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1TokenRefresh>>, void> = () => {
-
-
-    return postV1TokenRefresh(fetchOptions)
-  }
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
+    export type PostV1TokenRefreshMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TokenRefresh>>>
+    
+    export type PostV1TokenRefreshMutationError = MerrmidErrorResponse
 
-
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type PostV1TokenRefreshMutationResult = NonNullable<Awaited<ReturnType<typeof postV1TokenRefresh>>>
-
-export type PostV1TokenRefreshMutationError = MerrmidErrorResponse
-
-/**
-* @summary Refresh token
-*/
+    /**
+ * @summary Refresh token
+ */
 export const usePostV1TokenRefresh = <TError = MerrmidErrorResponse,
-  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError, void, TContext>, fetch?: RequestInit }
-    , queryClient?: QueryClient): UseMutationResult<
-      Awaited<ReturnType<typeof postV1TokenRefresh>>,
-      TError,
-      void,
-      TContext
-    > => {
-  return useMutation(getPostV1TokenRefreshMutationOptions(options), queryClient);
-}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1TokenRefresh>>, TError,void, TContext>, fetch?: RequestInit}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postV1TokenRefresh>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getPostV1TokenRefreshMutationOptions(options), queryClient);
+    }

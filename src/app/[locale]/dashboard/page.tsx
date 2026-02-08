@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useGetV1Profile, useGetV1Mfa, usePostV1MfaTotp, useDeleteV1MfaMfaId, useDeleteV1Account, usePostV1MfaTotpVerify, usePutV1Profile } from "@/lib/api/accounts";
 import { useRouter } from "next/navigation";
 import { usePostV1AuthLogout, usePostV1AuthPassword } from "@/lib/api/auth";
@@ -13,18 +13,24 @@ import { AvatarUploadModal } from "@/components/dashboard";
 import { DeleteAccountModal } from "@/components/dashboard";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { InternalAdapterHttpHandlerProfileGetProfileResponse } from "@/lib/api/schemas/accounts";
 import type { InternalAdapterHttpHandlerMfaMFAItemResponse } from "@/lib/api/schemas/accounts";
 import type { InternalAdapterHttpHandlerMfaAssignTOTPResponse } from "@/lib/api/schemas/accounts";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { useApiRefresh } from "@/lib/hooks/useApiRefresh";
+import { ROUTES, getLocalePath } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
 
 type TabType = "profile" | "security";
 
 export default function DashboardPage() {
   const t = useTranslations('dashboard');
+  const locale = useLocale();
   const router = useRouter();
   const { accessToken, logout } = useAuth();
+  const { refreshAccessToken } = useApiRefresh();
   const [activeTab, setActiveTab] = useState<TabType>("profile");
 
   const queryClient = useQueryClient();
@@ -35,10 +41,13 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
-  const logoutMutation = usePostV1AuthLogout({}, queryClient);
+  const logoutMutation = usePostV1AuthLogout({
+    fetch: { credentials: 'include' as const }
+  }, queryClient);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -46,10 +55,15 @@ export default function DashboardPage() {
     if (!isLoading) {
       const hasErrorInData = profile?.data && 'error' in profile.data;
       if (status === 'error' || hasErrorInData || !profile?.data) {
-        logout();
+        // Try to refresh token on error
+        refreshAccessToken().then((newToken) => {
+          if (!newToken) {
+            logout();
+          }
+        });
       }
     }
-  }, [isLoading, profile, status, accessToken, logout]);
+  }, [isLoading, profile, status, accessToken, logout, refreshAccessToken]);
 
   // Avatar upload state
   const [avatarUploading, setAvatarUploading] = useState(false);
@@ -70,7 +84,8 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
 
@@ -147,7 +162,8 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
 
@@ -162,7 +178,8 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
 
@@ -170,21 +187,24 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
   const deleteMfa = useDeleteV1MfaMfaId({
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
   const verifyMfa = usePostV1MfaTotpVerify({
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
 
@@ -228,7 +248,8 @@ export default function DashboardPage() {
     fetch: {
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
+      },
+      credentials: 'include'
     }
   }, queryClient);
 
@@ -300,14 +321,17 @@ export default function DashboardPage() {
       <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-4">
+            <button
+              onClick={() => router.push(`/${locale ?? 'ko'}`)}
+              className="flex items-center gap-4 hover:opacity-80 transition-opacity"
+            >
               <div className="bg-primary rounded-lg size-8 flex items-center justify-center">
                 <span className="font-bold text-primary-foreground">M</span>
               </div>
               <h1 className="text-xl font-semibold text-card-foreground">
                 {t('title')}
               </h1>
-            </div>
+            </button>
             <div className="flex items-center gap-4">
               <button
                 onClick={performLogout}
@@ -316,6 +340,8 @@ export default function DashboardPage() {
               >
                 {logoutMutation.isPending ? t('logoutLoading') : t('logout')}
               </button>
+              <LanguageSwitcher />
+              <ThemeToggle />
             </div>
           </div>
         </div>

@@ -7,6 +7,8 @@ import { usePostV1Register } from "@/lib/api/accounts";
 import { useQueryClient } from "@tanstack/react-query";
 import { HTTP_STATUS, ROUTES, UI_CONSTANTS, getLocalePath } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function SignupPage() {
   const t = useTranslations('signup');
@@ -54,6 +56,12 @@ export default function SignupPage() {
 
   return (
     <div className="bg-secondary flex min-h-screen items-center justify-center p-4">
+      {/* Header controls */}
+      <div className="fixed top-4 right-4 flex items-center gap-2 z-50">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
         <div className="flex flex-col gap-1.5 pt-6 px-6">
           <div className="flex h-12 items-center justify-center">

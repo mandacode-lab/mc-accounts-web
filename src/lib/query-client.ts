@@ -14,6 +14,7 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: (failureCount, error) => {
         const err = error as ApiError;
+        // Don't retry on 401 - let the error handler deal with it
         if (err?.response?.status === 401 || err?.status === 401) {
           return false;
         }
@@ -25,4 +26,3 @@ export const queryClient = new QueryClient({
     },
   },
 });
-

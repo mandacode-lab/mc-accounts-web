@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { usePostV1Login, usePostV1LoginCompleteNoMfa, usePostV1LoginCompleteTotp } from "@/lib/api/auth";
+import { usePostV1Login, usePostV1LoginCompleteNoMfa, usePostV1LoginCompleteTotp, usePostV1TokenRefresh } from "@/lib/api/auth";
 import type { InternalAdapterHttpHandlerAuthLoginInitLoginRequest } from "@/lib/api/schemas/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { HTTP_STATUS, ROUTES, UI_CONSTANTS, getLocalePath } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
   const t = useTranslations('login');
@@ -24,9 +26,38 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
   const { login: setLoginToken } = useAuth();
 
-  const loginInit = usePostV1Login(undefined, queryClient);
-  const loginComplete = usePostV1LoginCompleteNoMfa(undefined, queryClient);
-  const loginMfaComplete = usePostV1LoginCompleteTotp(undefined, queryClient);
+  const loginInit = usePostV1Login({
+    fetch: { credentials: 'include' as const }
+  }, queryClient);
+  const loginComplete = usePostV1LoginCompleteNoMfa({
+    fetch: { credentials: 'include' as const }
+  }, queryClient);
+  const loginMfaComplete = usePostV1LoginCompleteTotp({
+    fetch: { credentials: 'include' as const }
+  }, queryClient);
+  const tokenRefresh = usePostV1TokenRefresh({
+    fetch: { credentials: 'include' as const }
+  }, queryClient);
+
+  // Check existing session on mount
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const refreshResponse = await tokenRefresh.mutateAsync(undefined);
+
+        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
+          // Valid session exists, redirect to dashboard
+          setLoginToken(refreshResponse.data.access_token);
+          router.push(getLocalePath(locale, ROUTES.DASHBOARD));
+        }
+      } catch (error) {
+        // No valid session, clear any stale tokens
+        console.log("No valid session found");
+      }
+    };
+
+    checkExistingSession();
+  }, []); // Run only on mount
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -116,6 +147,12 @@ export default function LoginPage() {
 
   return (
     <div className="bg-secondary flex min-h-screen items-center justify-center p-4">
+      {/* Header controls */}
+      <div className="fixed top-4 right-4 flex items-center gap-2 z-50">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
         <div className="flex flex-col gap-1.5 pt-6 px-6">
           <div className="flex h-12 items-center justify-center">
