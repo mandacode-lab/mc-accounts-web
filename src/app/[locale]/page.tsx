@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { PageHeader } from "@/components/layout/page-header";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { getLocalePath, ROUTES } from "@/lib/constants";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -32,11 +33,7 @@ export default function Home() {
         <div className="max-w-4xl w-full">
           <div className="text-center mb-16">
             <div className="flex justify-center mb-8">
-              <div className="bg-primary rounded-lg size-20 flex items-center justify-center">
-                <span className="font-bold text-primary-foreground text-4xl">
-                  M
-                </span>
-              </div>
+              <BrandLogo size="lg" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-card-foreground mb-4">
               {t("title")}

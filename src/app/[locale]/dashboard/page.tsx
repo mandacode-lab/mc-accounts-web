@@ -11,9 +11,8 @@ import {
   PasswordChangeForm,
   ProfileSection,
 } from "@/components/dashboard";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   useDeleteV1Account,
@@ -400,9 +399,7 @@ export default function DashboardPage() {
               onClick={() => router.push(`/${locale ?? "ko"}`)}
               className="flex items-center gap-4 hover:opacity-80 transition-opacity"
             >
-              <div className="bg-primary rounded-lg size-8 flex items-center justify-center">
-                <span className="font-bold text-primary-foreground">M</span>
-              </div>
+              <BrandLogo size="sm" />
               <h1 className="text-xl font-semibold text-card-foreground">
                 {t("title")}
               </h1>
@@ -416,8 +413,6 @@ export default function DashboardPage() {
               >
                 {logoutMutation.isPending ? t("logoutLoading") : t("logout")}
               </button>
-              <LanguageSwitcher />
-              <ThemeToggle />
             </div>
           </div>
         </div>

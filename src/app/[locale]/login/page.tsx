@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/page-header";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import {
   usePostV1Login,
   usePostV1LoginCompleteNoMfa,
@@ -181,11 +182,7 @@ export default function LoginPage() {
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
         <div className="flex flex-col gap-1.5 pt-6 px-6">
           <div className="flex h-12 items-center justify-center">
-            <div className="bg-primary rounded-[10px] size-12 flex items-center justify-center">
-              <p className="font-bold leading-7 text-primary-foreground text-xl">
-                M
-              </p>
-            </div>
+            <BrandLogo size="md" variant="accent" />
           </div>
 
           <div className="h-8">
