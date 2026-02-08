@@ -61,7 +61,7 @@ export type deleteV1AccountResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type deleteV1AccountResponseSuccess = (deleteV1AccountResponse200) & {
   headers: Headers;
 };
@@ -74,24 +74,24 @@ export type deleteV1AccountResponse = (deleteV1AccountResponseSuccess | deleteV1
 export const getDeleteV1AccountUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/account`
 }
 
-export const deleteV1Account = async ( options?: RequestInit): Promise<deleteV1AccountResponse> => {
-  
+export const deleteV1Account = async (options?: RequestInit): Promise<deleteV1AccountResponse> => {
+
   const res = await fetch(getDeleteV1AccountUrl(),
-  {      
-    ...options,
-    method: 'DELETE'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'DELETE'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: deleteV1AccountResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as deleteV1AccountResponse
 }
@@ -100,50 +100,51 @@ export const deleteV1Account = async ( options?: RequestInit): Promise<deleteV1A
 
 
 export const getDeleteV1AccountMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError,void, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError,void, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError, void, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError, void, TContext> => {
 
-const mutationKey = ['deleteV1Account'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteV1Account'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1Account>>, void> = () => {
-          
-
-          return  deleteV1Account(fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1Account>>, void> = () => {
 
 
-  return  { mutationFn, ...mutationOptions }}
+    return deleteV1Account(fetchOptions)
+  }
 
-    export type DeleteV1AccountMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1Account>>>
-    
-    export type DeleteV1AccountMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Delete account
- */
+
+
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteV1AccountMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1Account>>>
+
+export type DeleteV1AccountMutationError = MerrmidErrorResponse
+
+/**
+* @summary Delete account
+*/
 export const useDeleteV1Account = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError,void, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteV1Account>>,
-        TError,
-        void,
-        TContext
-      > => {
-      return useMutation(getDeleteV1AccountMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteV1Account>>, TError, void, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteV1Account>>,
+      TError,
+      void,
+      TContext
+    > => {
+  return useMutation(getDeleteV1AccountMutationOptions(options), queryClient);
+}
+
 /**
  * List all MFA (Multi-Factor Authentication) devices for the authenticated user
  * @summary List MFA devices
@@ -162,7 +163,7 @@ export type getV1MfaResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type getV1MfaResponseSuccess = (getV1MfaResponse200) & {
   headers: Headers;
 };
@@ -175,24 +176,24 @@ export type getV1MfaResponse = (getV1MfaResponseSuccess | getV1MfaResponseError)
 export const getGetV1MfaUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa`
 }
 
-export const getV1Mfa = async ( options?: RequestInit): Promise<getV1MfaResponse> => {
-  
+export const getV1Mfa = async (options?: RequestInit): Promise<getV1MfaResponse> => {
+
   const res = await fetch(getGetV1MfaUrl(),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: getV1MfaResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getV1MfaResponse
 }
@@ -202,28 +203,28 @@ export const getV1Mfa = async ( options?: RequestInit): Promise<getV1MfaResponse
 
 
 export const getGetV1MfaQueryKey = () => {
-    return [
+  return [
     `https://accounts.mandacode.com/api/v1/mfa`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetV1MfaQueryOptions = <TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
+
+export const getGetV1MfaQueryOptions = <TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit }
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetV1MfaQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetV1MfaQueryKey();
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1Mfa>>> = ({ signal }) => getV1Mfa({ signal, ...fetchOptions });
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1Mfa>>> = ({ signal }) => getV1Mfa({ signal, ...fetchOptions });
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1MfaQueryResult = NonNullable<Awaited<ReturnType<typeof getV1Mfa>>>
@@ -231,41 +232,45 @@ export type GetV1MfaQueryError = MerrmidErrorResponse
 
 
 export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1Mfa>>,
-          TError,
-          Awaited<ReturnType<typeof getV1Mfa>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1Mfa>>,
+        TError,
+        Awaited<ReturnType<typeof getV1Mfa>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1Mfa>>,
-          TError,
-          Awaited<ReturnType<typeof getV1Mfa>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1Mfa>>,
+        TError,
+        Awaited<ReturnType<typeof getV1Mfa>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary List MFA devices
  */
 
 export function useGetV1Mfa<TData = Awaited<ReturnType<typeof getV1Mfa>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Mfa>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetV1MfaQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -297,7 +302,7 @@ export type postV1MfaTotpResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type postV1MfaTotpResponseSuccess = (postV1MfaTotpResponse200) & {
   headers: Headers;
 };
@@ -310,25 +315,25 @@ export type postV1MfaTotpResponse = (postV1MfaTotpResponseSuccess | postV1MfaTot
 export const getPostV1MfaTotpUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa/totp`
 }
 
 export const postV1MfaTotp = async (internalAdapterHttpHandlerMfaAssignTOTPRequest: InternalAdapterHttpHandlerMfaAssignTOTPRequest, options?: RequestInit): Promise<postV1MfaTotpResponse> => {
-  
+
   const res = await fetch(getPostV1MfaTotpUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      internalAdapterHttpHandlerMfaAssignTOTPRequest,)
-  }
-)
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(
+        internalAdapterHttpHandlerMfaAssignTOTPRequest,)
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: postV1MfaTotpResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1MfaTotpResponse
 }
@@ -337,50 +342,51 @@ export const postV1MfaTotp = async (internalAdapterHttpHandlerMfaAssignTOTPReque
 
 
 export const getPostV1MfaTotpMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError,{data: InternalAdapterHttpHandlerMfaAssignTOTPRequest}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError,{data: InternalAdapterHttpHandlerMfaAssignTOTPRequest}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError, { data: InternalAdapterHttpHandlerMfaAssignTOTPRequest }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError, { data: InternalAdapterHttpHandlerMfaAssignTOTPRequest }, TContext> => {
 
-const mutationKey = ['postV1MfaTotp'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postV1MfaTotp'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1MfaTotp>>, {data: InternalAdapterHttpHandlerMfaAssignTOTPRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postV1MfaTotp(data,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1MfaTotp>>, { data: InternalAdapterHttpHandlerMfaAssignTOTPRequest }> = (props) => {
+    const { data } = props ?? {};
+
+    return postV1MfaTotp(data, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type PostV1MfaTotpMutationResult = NonNullable<Awaited<ReturnType<typeof postV1MfaTotp>>>
-    export type PostV1MfaTotpMutationBody = InternalAdapterHttpHandlerMfaAssignTOTPRequest
-    export type PostV1MfaTotpMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Assign TOTP
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostV1MfaTotpMutationResult = NonNullable<Awaited<ReturnType<typeof postV1MfaTotp>>>
+export type PostV1MfaTotpMutationBody = InternalAdapterHttpHandlerMfaAssignTOTPRequest
+export type PostV1MfaTotpMutationError = MerrmidErrorResponse
+
+/**
+* @summary Assign TOTP
+*/
 export const usePostV1MfaTotp = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError,{data: InternalAdapterHttpHandlerMfaAssignTOTPRequest}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postV1MfaTotp>>,
-        TError,
-        {data: InternalAdapterHttpHandlerMfaAssignTOTPRequest},
-        TContext
-      > => {
-      return useMutation(getPostV1MfaTotpMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotp>>, TError, { data: InternalAdapterHttpHandlerMfaAssignTOTPRequest }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postV1MfaTotp>>,
+      TError,
+      { data: InternalAdapterHttpHandlerMfaAssignTOTPRequest },
+      TContext
+    > => {
+  return useMutation(getPostV1MfaTotpMutationOptions(options), queryClient);
+}
+
 /**
  * Verify the TOTP code after assigning a new TOTP using session key. The TOTP must be verified to become active.
  * @summary Verify TOTP Assignment
@@ -409,7 +415,7 @@ export type postV1MfaTotpVerifyResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type postV1MfaTotpVerifyResponseSuccess = (postV1MfaTotpVerifyResponse200) & {
   headers: Headers;
 };
@@ -422,25 +428,25 @@ export type postV1MfaTotpVerifyResponse = (postV1MfaTotpVerifyResponseSuccess | 
 export const getPostV1MfaTotpVerifyUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa/totp/verify`
 }
 
 export const postV1MfaTotpVerify = async (internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest, options?: RequestInit): Promise<postV1MfaTotpVerifyResponse> => {
-  
+
   const res = await fetch(getPostV1MfaTotpVerifyUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest,)
-  }
-)
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(
+        internalAdapterHttpHandlerMfaVerifyTOTPAssignRequest,)
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: postV1MfaTotpVerifyResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1MfaTotpVerifyResponse
 }
@@ -449,50 +455,51 @@ export const postV1MfaTotpVerify = async (internalAdapterHttpHandlerMfaVerifyTOT
 
 
 export const getPostV1MfaTotpVerifyMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError,{data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError,{data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError, { data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError, { data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest }, TContext> => {
 
-const mutationKey = ['postV1MfaTotpVerify'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postV1MfaTotpVerify'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, {data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postV1MfaTotpVerify(data,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, { data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest }> = (props) => {
+    const { data } = props ?? {};
+
+    return postV1MfaTotpVerify(data, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type PostV1MfaTotpVerifyMutationResult = NonNullable<Awaited<ReturnType<typeof postV1MfaTotpVerify>>>
-    export type PostV1MfaTotpVerifyMutationBody = InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest
-    export type PostV1MfaTotpVerifyMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Verify TOTP Assignment
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostV1MfaTotpVerifyMutationResult = NonNullable<Awaited<ReturnType<typeof postV1MfaTotpVerify>>>
+export type PostV1MfaTotpVerifyMutationBody = InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest
+export type PostV1MfaTotpVerifyMutationError = MerrmidErrorResponse
+
+/**
+* @summary Verify TOTP Assignment
+*/
 export const usePostV1MfaTotpVerify = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError,{data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postV1MfaTotpVerify>>,
-        TError,
-        {data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest},
-        TContext
-      > => {
-      return useMutation(getPostV1MfaTotpVerifyMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1MfaTotpVerify>>, TError, { data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postV1MfaTotpVerify>>,
+      TError,
+      { data: InternalAdapterHttpHandlerMfaVerifyTOTPAssignRequest },
+      TContext
+    > => {
+  return useMutation(getPostV1MfaTotpVerifyMutationOptions(options), queryClient);
+}
+
 /**
  * Retrieve a specific MFA (Multi-Factor Authentication) device by ID
  * @summary Get MFA device
@@ -526,7 +533,7 @@ export type getV1MfaMfaIdResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type getV1MfaMfaIdResponseSuccess = (getV1MfaMfaIdResponse200) & {
   headers: Headers;
 };
@@ -539,24 +546,24 @@ export type getV1MfaMfaIdResponse = (getV1MfaMfaIdResponseSuccess | getV1MfaMfaI
 export const getGetV1MfaMfaIdUrl = (mfaId: string,) => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa/${mfaId}`
 }
 
 export const getV1MfaMfaId = async (mfaId: string, options?: RequestInit): Promise<getV1MfaMfaIdResponse> => {
-  
+
   const res = await fetch(getGetV1MfaMfaIdUrl(mfaId),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: getV1MfaMfaIdResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getV1MfaMfaIdResponse
 }
@@ -566,28 +573,28 @@ export const getV1MfaMfaId = async (mfaId: string, options?: RequestInit): Promi
 
 
 export const getGetV1MfaMfaIdQueryKey = (mfaId: string,) => {
-    return [
+  return [
     `https://accounts.mandacode.com/api/v1/mfa/${mfaId}`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetV1MfaMfaIdQueryOptions = <TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
+
+export const getGetV1MfaMfaIdQueryOptions = <TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(mfaId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit }
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetV1MfaMfaIdQueryKey(mfaId);
+  const queryKey = queryOptions?.queryKey ?? getGetV1MfaMfaIdQueryKey(mfaId);
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1MfaMfaId>>> = ({ signal }) => getV1MfaMfaId(mfaId, { signal, ...fetchOptions });
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1MfaMfaId>>> = ({ signal }) => getV1MfaMfaId(mfaId, { signal, ...fetchOptions });
 
-      
 
-   return  { queryKey, queryFn, enabled: !!(mfaId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, enabled: !!(mfaId), ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1MfaMfaIdQueryResult = NonNullable<Awaited<ReturnType<typeof getV1MfaMfaId>>>
@@ -595,41 +602,45 @@ export type GetV1MfaMfaIdQueryError = MerrmidErrorResponse
 
 
 export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
- mfaId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1MfaMfaId>>,
-          TError,
-          Awaited<ReturnType<typeof getV1MfaMfaId>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  mfaId: string, options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1MfaMfaId>>,
+        TError,
+        Awaited<ReturnType<typeof getV1MfaMfaId>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
- mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1MfaMfaId>>,
-          TError,
-          Awaited<ReturnType<typeof getV1MfaMfaId>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  mfaId: string, options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1MfaMfaId>>,
+        TError,
+        Awaited<ReturnType<typeof getV1MfaMfaId>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
- mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  mfaId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get MFA device
  */
 
 export function useGetV1MfaMfaId<TData = Awaited<ReturnType<typeof getV1MfaMfaId>>, TError = MerrmidErrorResponse>(
- mfaId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  mfaId: string, options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1MfaMfaId>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetV1MfaMfaIdQueryOptions(mfaId,options)
+  const queryOptions = getGetV1MfaMfaIdQueryOptions(mfaId, options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -671,7 +682,7 @@ export type putV1MfaMfaIdResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type putV1MfaMfaIdResponseSuccess = (putV1MfaMfaIdResponse200) & {
   headers: Headers;
 };
@@ -684,26 +695,26 @@ export type putV1MfaMfaIdResponse = (putV1MfaMfaIdResponseSuccess | putV1MfaMfaI
 export const getPutV1MfaMfaIdUrl = (mfaId: string,) => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa/${mfaId}`
 }
 
 export const putV1MfaMfaId = async (mfaId: string,
-    internalAdapterHttpHandlerMfaUpdateMFARequest: InternalAdapterHttpHandlerMfaUpdateMFARequest, options?: RequestInit): Promise<putV1MfaMfaIdResponse> => {
-  
+  internalAdapterHttpHandlerMfaUpdateMFARequest: InternalAdapterHttpHandlerMfaUpdateMFARequest, options?: RequestInit): Promise<putV1MfaMfaIdResponse> => {
+
   const res = await fetch(getPutV1MfaMfaIdUrl(mfaId),
-  {      
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      internalAdapterHttpHandlerMfaUpdateMFARequest,)
-  }
-)
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(
+        internalAdapterHttpHandlerMfaUpdateMFARequest,)
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: putV1MfaMfaIdResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as putV1MfaMfaIdResponse
 }
@@ -712,50 +723,51 @@ export const putV1MfaMfaId = async (mfaId: string,
 
 
 export const getPutV1MfaMfaIdMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError, { mfaId: string; data: InternalAdapterHttpHandlerMfaUpdateMFARequest }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError, { mfaId: string; data: InternalAdapterHttpHandlerMfaUpdateMFARequest }, TContext> => {
 
-const mutationKey = ['putV1MfaMfaId'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['putV1MfaMfaId'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putV1MfaMfaId>>, {mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest}> = (props) => {
-          const {mfaId,data} = props ?? {};
-
-          return  putV1MfaMfaId(mfaId,data,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof putV1MfaMfaId>>, { mfaId: string; data: InternalAdapterHttpHandlerMfaUpdateMFARequest }> = (props) => {
+    const { mfaId, data } = props ?? {};
+
+    return putV1MfaMfaId(mfaId, data, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type PutV1MfaMfaIdMutationResult = NonNullable<Awaited<ReturnType<typeof putV1MfaMfaId>>>
-    export type PutV1MfaMfaIdMutationBody = InternalAdapterHttpHandlerMfaUpdateMFARequest
-    export type PutV1MfaMfaIdMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Update MFA device
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PutV1MfaMfaIdMutationResult = NonNullable<Awaited<ReturnType<typeof putV1MfaMfaId>>>
+export type PutV1MfaMfaIdMutationBody = InternalAdapterHttpHandlerMfaUpdateMFARequest
+export type PutV1MfaMfaIdMutationError = MerrmidErrorResponse
+
+/**
+* @summary Update MFA device
+*/
 export const usePutV1MfaMfaId = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError,{mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putV1MfaMfaId>>,
-        TError,
-        {mfaId: string;data: InternalAdapterHttpHandlerMfaUpdateMFARequest},
-        TContext
-      > => {
-      return useMutation(getPutV1MfaMfaIdMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putV1MfaMfaId>>, TError, { mfaId: string; data: InternalAdapterHttpHandlerMfaUpdateMFARequest }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof putV1MfaMfaId>>,
+      TError,
+      { mfaId: string; data: InternalAdapterHttpHandlerMfaUpdateMFARequest },
+      TContext
+    > => {
+  return useMutation(getPutV1MfaMfaIdMutationOptions(options), queryClient);
+}
+
 /**
  * Remove a specific MFA (Multi-Factor Authentication) device by ID
  * @summary Remove MFA device
@@ -784,7 +796,7 @@ export type deleteV1MfaMfaIdResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type deleteV1MfaMfaIdResponseSuccess = (deleteV1MfaMfaIdResponse200) & {
   headers: Headers;
 };
@@ -797,24 +809,24 @@ export type deleteV1MfaMfaIdResponse = (deleteV1MfaMfaIdResponseSuccess | delete
 export const getDeleteV1MfaMfaIdUrl = (mfaId: string,) => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/mfa/${mfaId}`
 }
 
 export const deleteV1MfaMfaId = async (mfaId: string, options?: RequestInit): Promise<deleteV1MfaMfaIdResponse> => {
-  
+
   const res = await fetch(getDeleteV1MfaMfaIdUrl(mfaId),
-  {      
-    ...options,
-    method: 'DELETE'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'DELETE'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: deleteV1MfaMfaIdResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as deleteV1MfaMfaIdResponse
 }
@@ -823,50 +835,51 @@ export const deleteV1MfaMfaId = async (mfaId: string, options?: RequestInit): Pr
 
 
 export const getDeleteV1MfaMfaIdMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError,{mfaId: string}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError,{mfaId: string}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError, { mfaId: string }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError, { mfaId: string }, TContext> => {
 
-const mutationKey = ['deleteV1MfaMfaId'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['deleteV1MfaMfaId'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, {mfaId: string}> = (props) => {
-          const {mfaId} = props ?? {};
-
-          return  deleteV1MfaMfaId(mfaId,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, { mfaId: string }> = (props) => {
+    const { mfaId } = props ?? {};
+
+    return deleteV1MfaMfaId(mfaId, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type DeleteV1MfaMfaIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1MfaMfaId>>>
-    
-    export type DeleteV1MfaMfaIdMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Remove MFA device
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteV1MfaMfaIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteV1MfaMfaId>>>
+
+export type DeleteV1MfaMfaIdMutationError = MerrmidErrorResponse
+
+/**
+* @summary Remove MFA device
+*/
 export const useDeleteV1MfaMfaId = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError,{mfaId: string}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteV1MfaMfaId>>,
-        TError,
-        {mfaId: string},
-        TContext
-      > => {
-      return useMutation(getDeleteV1MfaMfaIdMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteV1MfaMfaId>>, TError, { mfaId: string }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof deleteV1MfaMfaId>>,
+      TError,
+      { mfaId: string },
+      TContext
+    > => {
+  return useMutation(getDeleteV1MfaMfaIdMutationOptions(options), queryClient);
+}
+
 /**
  * Get the authenticated user's profile
  * @summary Get profile
@@ -885,7 +898,7 @@ export type getV1ProfileResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type getV1ProfileResponseSuccess = (getV1ProfileResponse200) & {
   headers: Headers;
 };
@@ -898,24 +911,24 @@ export type getV1ProfileResponse = (getV1ProfileResponseSuccess | getV1ProfileRe
 export const getGetV1ProfileUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/profile`
 }
 
-export const getV1Profile = async ( options?: RequestInit): Promise<getV1ProfileResponse> => {
-  
+export const getV1Profile = async (options?: RequestInit): Promise<getV1ProfileResponse> => {
+
   const res = await fetch(getGetV1ProfileUrl(),
-  {      
-    ...options,
-    method: 'GET'
-    
-    
-  }
-)
+    {
+      ...options,
+      method: 'GET'
+
+
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: getV1ProfileResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getV1ProfileResponse
 }
@@ -925,28 +938,28 @@ export const getV1Profile = async ( options?: RequestInit): Promise<getV1Profile
 
 
 export const getGetV1ProfileQueryKey = () => {
-    return [
+  return [
     `https://accounts.mandacode.com/api/v1/profile`
-    ] as const;
-    }
+  ] as const;
+}
 
-    
-export const getGetV1ProfileQueryOptions = <TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
+
+export const getGetV1ProfileQueryOptions = <TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit }
 ) => {
 
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetV1ProfileQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetV1ProfileQueryKey();
 
-  
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1Profile>>> = ({ signal }) => getV1Profile({ signal, ...fetchOptions });
 
-      
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getV1Profile>>> = ({ signal }) => getV1Profile({ signal, ...fetchOptions });
 
-      
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetV1ProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getV1Profile>>>
@@ -954,41 +967,45 @@ export type GetV1ProfileQueryError = MerrmidErrorResponse
 
 
 export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1Profile>>,
-          TError,
-          Awaited<ReturnType<typeof getV1Profile>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1Profile>>,
+        TError,
+        Awaited<ReturnType<typeof getV1Profile>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getV1Profile>>,
-          TError,
-          Awaited<ReturnType<typeof getV1Profile>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>> & Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getV1Profile>>,
+        TError,
+        Awaited<ReturnType<typeof getV1Profile>>
+      >, 'initialData'
+    >, fetch?: RequestInit
+  }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get profile
  */
 
 export function useGetV1Profile<TData = Awaited<ReturnType<typeof getV1Profile>>, TError = MerrmidErrorResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getV1Profile>>, TError, TData>>, fetch?: RequestInit }
+  , queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetV1ProfileQueryOptions(options)
 
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -1020,7 +1037,7 @@ export type putV1ProfileResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type putV1ProfileResponseSuccess = (putV1ProfileResponse200) & {
   headers: Headers;
 };
@@ -1033,25 +1050,25 @@ export type putV1ProfileResponse = (putV1ProfileResponseSuccess | putV1ProfileRe
 export const getPutV1ProfileUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/profile`
 }
 
 export const putV1Profile = async (internalAdapterHttpHandlerProfileUpdateProfileRequest: InternalAdapterHttpHandlerProfileUpdateProfileRequest, options?: RequestInit): Promise<putV1ProfileResponse> => {
-  
+
   const res = await fetch(getPutV1ProfileUrl(),
-  {      
-    ...options,
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      internalAdapterHttpHandlerProfileUpdateProfileRequest,)
-  }
-)
+    {
+      ...options,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(
+        internalAdapterHttpHandlerProfileUpdateProfileRequest,)
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: putV1ProfileResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as putV1ProfileResponse
 }
@@ -1060,50 +1077,51 @@ export const putV1Profile = async (internalAdapterHttpHandlerProfileUpdateProfil
 
 
 export const getPutV1ProfileMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError,{data: InternalAdapterHttpHandlerProfileUpdateProfileRequest}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError,{data: InternalAdapterHttpHandlerProfileUpdateProfileRequest}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError, { data: InternalAdapterHttpHandlerProfileUpdateProfileRequest }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError, { data: InternalAdapterHttpHandlerProfileUpdateProfileRequest }, TContext> => {
 
-const mutationKey = ['putV1Profile'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['putV1Profile'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putV1Profile>>, {data: InternalAdapterHttpHandlerProfileUpdateProfileRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  putV1Profile(data,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof putV1Profile>>, { data: InternalAdapterHttpHandlerProfileUpdateProfileRequest }> = (props) => {
+    const { data } = props ?? {};
+
+    return putV1Profile(data, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type PutV1ProfileMutationResult = NonNullable<Awaited<ReturnType<typeof putV1Profile>>>
-    export type PutV1ProfileMutationBody = InternalAdapterHttpHandlerProfileUpdateProfileRequest
-    export type PutV1ProfileMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Update profile
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PutV1ProfileMutationResult = NonNullable<Awaited<ReturnType<typeof putV1Profile>>>
+export type PutV1ProfileMutationBody = InternalAdapterHttpHandlerProfileUpdateProfileRequest
+export type PutV1ProfileMutationError = MerrmidErrorResponse
+
+/**
+* @summary Update profile
+*/
 export const usePutV1Profile = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError,{data: InternalAdapterHttpHandlerProfileUpdateProfileRequest}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putV1Profile>>,
-        TError,
-        {data: InternalAdapterHttpHandlerProfileUpdateProfileRequest},
-        TContext
-      > => {
-      return useMutation(getPutV1ProfileMutationOptions(options), queryClient);
-    }
-    
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof putV1Profile>>, TError, { data: InternalAdapterHttpHandlerProfileUpdateProfileRequest }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof putV1Profile>>,
+      TError,
+      { data: InternalAdapterHttpHandlerProfileUpdateProfileRequest },
+      TContext
+    > => {
+  return useMutation(getPutV1ProfileMutationOptions(options), queryClient);
+}
+
 /**
  * Register a new user with identity and password
  * @summary Register user
@@ -1122,7 +1140,7 @@ export type postV1RegisterResponse500 = {
   data: MerrmidErrorResponse
   status: 500
 }
-    
+
 export type postV1RegisterResponseSuccess = (postV1RegisterResponse201) & {
   headers: Headers;
 };
@@ -1135,25 +1153,25 @@ export type postV1RegisterResponse = (postV1RegisterResponseSuccess | postV1Regi
 export const getPostV1RegisterUrl = () => {
 
 
-  
+
 
   return `https://accounts.mandacode.com/api/v1/register`
 }
 
 export const postV1Register = async (internalAdapterHttpHandlerUserRegisterRequest: InternalAdapterHttpHandlerUserRegisterRequest, options?: RequestInit): Promise<postV1RegisterResponse> => {
-  
+
   const res = await fetch(getPostV1RegisterUrl(),
-  {      
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      internalAdapterHttpHandlerUserRegisterRequest,)
-  }
-)
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...options?.headers },
+      body: JSON.stringify(
+        internalAdapterHttpHandlerUserRegisterRequest,)
+    }
+  )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-  
+
   const data: postV1RegisterResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as postV1RegisterResponse
 }
@@ -1162,46 +1180,47 @@ export const postV1Register = async (internalAdapterHttpHandlerUserRegisterReque
 
 
 export const getPostV1RegisterMutationOptions = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError,{data: InternalAdapterHttpHandlerUserRegisterRequest}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError,{data: InternalAdapterHttpHandlerUserRegisterRequest}, TContext> => {
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError, { data: InternalAdapterHttpHandlerUserRegisterRequest }, TContext>, fetch?: RequestInit }
+  ): UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError, { data: InternalAdapterHttpHandlerUserRegisterRequest }, TContext> => {
 
-const mutationKey = ['postV1Register'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+  const mutationKey = ['postV1Register'];
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?
+    options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1Register>>, {data: InternalAdapterHttpHandlerUserRegisterRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postV1Register(data,fetchOptions)
-        }
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey, }, fetch: undefined };
 
 
 
-        
+
+  const mutationFn: MutationFunction<Awaited<ReturnType<typeof postV1Register>>, { data: InternalAdapterHttpHandlerUserRegisterRequest }> = (props) => {
+    const { data } = props ?? {};
+
+    return postV1Register(data, fetchOptions)
+  }
 
 
-  return  { mutationFn, ...mutationOptions }}
 
-    export type PostV1RegisterMutationResult = NonNullable<Awaited<ReturnType<typeof postV1Register>>>
-    export type PostV1RegisterMutationBody = InternalAdapterHttpHandlerUserRegisterRequest
-    export type PostV1RegisterMutationError = MerrmidErrorResponse
 
-    /**
- * @summary Register user
- */
+
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostV1RegisterMutationResult = NonNullable<Awaited<ReturnType<typeof postV1Register>>>
+export type PostV1RegisterMutationBody = InternalAdapterHttpHandlerUserRegisterRequest
+export type PostV1RegisterMutationError = MerrmidErrorResponse
+
+/**
+* @summary Register user
+*/
 export const usePostV1Register = <TError = MerrmidErrorResponse,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError,{data: InternalAdapterHttpHandlerUserRegisterRequest}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postV1Register>>,
-        TError,
-        {data: InternalAdapterHttpHandlerUserRegisterRequest},
-        TContext
-      > => {
-      return useMutation(getPostV1RegisterMutationOptions(options), queryClient);
-    }
+  TContext = unknown>(options?: { mutation?: UseMutationOptions<Awaited<ReturnType<typeof postV1Register>>, TError, { data: InternalAdapterHttpHandlerUserRegisterRequest }, TContext>, fetch?: RequestInit }
+    , queryClient?: QueryClient): UseMutationResult<
+      Awaited<ReturnType<typeof postV1Register>>,
+      TError,
+      { data: InternalAdapterHttpHandlerUserRegisterRequest },
+      TContext
+    > => {
+  return useMutation(getPostV1RegisterMutationOptions(options), queryClient);
+}

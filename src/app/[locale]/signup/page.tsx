@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { usePostV1Register } from "@/lib/api/accounts";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { usePostV1Register } from "@/lib/api/accounts";
 import { useQueryClient } from "@tanstack/react-query";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { HTTP_STATUS, ROUTES, UI_CONSTANTS, getLocalePath } from "@/lib/constants";
+import { ERROR_MESSAGES } from "@/lib/errors";
 
 export default function SignupPage() {
+  const t = useTranslations('signup');
+  const locale = useLocale();
+  const router = useRouter();
   const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter();
   const queryClient = useQueryClient();
   const register = usePostV1Register(undefined, queryClient);
 
@@ -20,14 +24,13 @@ export default function SignupPage() {
     e.preventDefault();
     setError(null);
 
-    // Validate password
-    if (password.length < 8) {
-      setError("비밀번호는 최소 8자 이상이어야 합니다.");
+    if (password.length < UI_CONSTANTS.PASSWORD_MIN_LENGTH) {
+      setError(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("비밀번호가 일치하지 않습니다.");
+      setError(ERROR_MESSAGES.PASSWORD_MISMATCH);
       return;
     }
 
@@ -36,32 +39,23 @@ export default function SignupPage() {
         data: { identity, password },
       });
 
-      // Check for error response
-      if (response.status !== 201) {
+      if (response.status !== HTTP_STATUS.CREATED) {
         const errorData = response.data as { error?: string };
-        setError(errorData.error || "회원가입에 실패했습니다.");
+        setError(errorData.error || ERROR_MESSAGES.SIGNUP_FAILED);
         return;
       }
 
-      alert("회원가입이 완료되었습니다. 로그인해주세요.");
-      router.push("/login");
+      router.push(getLocalePath(locale, ROUTES.SIGNUP_COMPLETE));
     } catch (err) {
       console.error("Signup error:", err);
-      setError("회원가입에 실패했습니다.");
+      setError(ERROR_MESSAGES.SIGNUP_FAILED);
     }
   };
 
   return (
-    <div className="bg-secondary flex min-h-screen items-center justify-center p-4 relative">
-      {/* Theme Toggle - Top Right */}
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
-
+    <div className="bg-secondary flex min-h-screen items-center justify-center p-4">
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
-        {/* Card Header */}
         <div className="flex flex-col gap-1.5 pt-6 px-6">
-          {/* Logo */}
           <div className="flex h-12 items-center justify-center">
             <div className="bg-primary rounded-[10px] size-12 flex items-center justify-center">
               <p className="font-bold leading-7 text-primary-foreground text-xl">
@@ -70,37 +64,33 @@ export default function SignupPage() {
             </div>
           </div>
 
-          {/* Title */}
           <div className="h-8">
             <p className="font-medium leading-8 text-card-foreground text-2xl text-center">
-              회원가입
+              {t('title')}
             </p>
           </div>
 
-          {/* Description */}
           <div>
             <p className="font-normal leading-6 text-muted-foreground text-base text-center">
-              Mandacode 계정을 만들어보세요
+              {t('subtitle')}
             </p>
           </div>
         </div>
 
-        {/* Signup Form */}
         <form
           className="flex flex-col gap-4 px-6 pt-6 pb-6"
           onSubmit={handleSubmit}
         >
-          {/* ID Input */}
           <div className="flex flex-col gap-2">
             <div className="flex h-[14px] items-center">
               <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                아이디 / 이메일
+                {t('idLabel')}
               </p>
             </div>
             <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
               <input
                 type="text"
-                placeholder="your-email@example.com"
+                placeholder={t('idPlaceholder')}
                 className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                 value={identity}
                 onChange={(e) => setIdentity(e.target.value)}
@@ -110,17 +100,16 @@ export default function SignupPage() {
             </div>
           </div>
 
-          {/* Password Input */}
           <div className="flex flex-col gap-2">
             <div className="flex h-[14px] items-center">
               <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                비밀번호
+                {t('passwordLabel')}
               </p>
             </div>
             <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('passwordPlaceholder')}
                 className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -129,21 +118,20 @@ export default function SignupPage() {
               />
             </div>
             <p className="font-normal leading-5 text-muted-foreground text-sm">
-              최소 8자 이상
+              {t('passwordMinLength', { minLength: UI_CONSTANTS.PASSWORD_MIN_LENGTH })}
             </p>
           </div>
 
-          {/* Confirm Password Input */}
           <div className="flex flex-col gap-2">
             <div className="flex h-[14px] items-center">
               <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                비밀번호 확인
+                {t('confirmPasswordLabel')}
               </p>
             </div>
             <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('confirmPasswordPlaceholder')}
                 className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -153,30 +141,27 @@ export default function SignupPage() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <p className="text-destructive text-sm">{error}</p>
           )}
 
-          {/* Signup Button */}
           <button
             type="submit"
             disabled={register.isPending}
             className="bg-primary h-9 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity text-primary-foreground font-medium text-sm"
           >
-            {register.isPending ? "가입 중..." : "가입하기"}
+            {register.isPending ? t('signupButtonLoading') : t('signupButton')}
           </button>
 
-          {/* Login Link */}
           <div className="flex items-center justify-center gap-1">
             <p className="font-normal leading-5 text-card-foreground text-sm text-center">
-              이미 계정이 있으신가요?
+              {t('hasAccount')}
             </p>
             <a
-              href="/login"
+              href={getLocalePath(locale, ROUTES.LOGIN)}
               className="font-normal leading-5 text-primary text-sm text-center hover:underline"
             >
-              로그인
+              {t('loginLink')}
             </a>
           </div>
         </form>

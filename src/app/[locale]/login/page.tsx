@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { usePostV1Login, usePostV1LoginCompleteNoMfa, usePostV1LoginCompleteTotp } from "@/lib/api/auth";
 import type { InternalAdapterHttpHandlerAuthLoginInitLoginRequest } from "@/lib/api/schemas/auth";
-import { useAuthStore } from "@/lib/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { HTTP_STATUS, ROUTES, UI_CONSTANTS, getLocalePath } from "@/lib/constants";
+import { ERROR_MESSAGES } from "@/lib/errors";
 
 export default function LoginPage() {
+  const t = useTranslations('login');
+  const locale = useLocale();
   const router = useRouter();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +22,7 @@ export default function LoginPage() {
   const [totpCode, setTotpCode] = useState("");
 
   const queryClient = useQueryClient();
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const { login: setLoginToken } = useAuth();
 
   const loginInit = usePostV1Login(undefined, queryClient);
   const loginComplete = usePostV1LoginCompleteNoMfa(undefined, queryClient);
@@ -28,10 +32,9 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
 
-    // If already showing MFA input, handle TOTP verification
     if (showMfaInput && pendingToken) {
-      if (totpCode.length !== 6) {
-        setError("6자리 코드를 입력해주세요.");
+      if (totpCode.length !== UI_CONSTANTS.TOTP_CODE_LENGTH) {
+        setError(ERROR_MESSAGES.TOTP_CODE_REQUIRED);
         return;
       }
 
@@ -43,25 +46,24 @@ export default function LoginPage() {
           },
         });
 
-        if (mfaResponse.status !== 200) {
+        if (mfaResponse.status !== HTTP_STATUS.OK) {
           const errorData = mfaResponse.data as { error?: string };
-          setError(errorData.error || "MFA 인증에 실패했습니다.");
+          setError(errorData.error || ERROR_MESSAGES.MFA_VERIFICATION_FAILED);
           return;
         }
 
         const { access_token } = mfaResponse.data;
         if (access_token) {
-          setAccessToken(access_token);
-          router.push("/dashboard");
+          setLoginToken(access_token);
+          router.push(getLocalePath(locale, ROUTES.DASHBOARD));
         }
       } catch (err) {
         console.error("MFA verification error:", err);
-        setError("MFA 인증에 실패했습니다.");
+        setError(ERROR_MESSAGES.MFA_VERIFICATION_FAILED);
       }
       return;
     }
 
-    // Initial login flow
     try {
       const initResponse = await loginInit.mutateAsync({
         data: {
@@ -70,42 +72,38 @@ export default function LoginPage() {
         } as InternalAdapterHttpHandlerAuthLoginInitLoginRequest,
       });
 
-      // Check for error response
-      if (initResponse.status !== 200) {
+      if (initResponse.status !== HTTP_STATUS.OK) {
         const errorData = initResponse.data as { error?: string };
-        setError(errorData.error || "로그인에 실패했습니다.");
+        setError(errorData.error || ERROR_MESSAGES.LOGIN_FAILED);
         return;
       }
 
       const { mfa_required, pending_token: token } = initResponse.data;
 
       if (!mfa_required && token) {
-        // Step 2: Complete login for non-MFA users
         const completeResponse = await loginComplete.mutateAsync({
           data: { pending_token: token },
         });
 
-        // Check for error response
-        if (completeResponse.status !== 200) {
+        if (completeResponse.status !== HTTP_STATUS.OK) {
           const errorData = completeResponse.data as { error?: string };
-          setError(errorData.error || "로그인에 실패했습니다.");
+          setError(errorData.error || ERROR_MESSAGES.LOGIN_FAILED);
           return;
         }
 
         const { access_token } = completeResponse.data;
         if (access_token) {
-          setAccessToken(access_token);
-          router.push("/dashboard");
+          setLoginToken(access_token);
+          router.push(getLocalePath(locale, ROUTES.DASHBOARD));
         }
       } else if (mfa_required) {
-        // Show MFA input
         setPendingToken(token || null);
         setShowMfaInput(true);
         setError(null);
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("로그인에 실패했습니다.");
+      setError(ERROR_MESSAGES.LOGIN_FAILED);
     }
   };
 
@@ -117,16 +115,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-secondary flex min-h-screen items-center justify-center p-4 relative">
-      {/* Theme Toggle - Top Right */}
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
-
+    <div className="bg-secondary flex min-h-screen items-center justify-center p-4">
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
-        {/* Card Header */}
         <div className="flex flex-col gap-1.5 pt-6 px-6">
-          {/* Logo */}
           <div className="flex h-12 items-center justify-center">
             <div className="bg-primary rounded-[10px] size-12 flex items-center justify-center">
               <p className="font-bold leading-7 text-primary-foreground text-xl">
@@ -135,38 +126,34 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Title */}
           <div className="h-8">
             <p className="font-medium leading-8 text-card-foreground text-2xl text-center">
-              로그인
+              {t('title')}
             </p>
           </div>
 
-          {/* Description */}
           <div>
             <p className="font-normal leading-6 text-muted-foreground text-base text-center">
-              Mandacode 계정으로 로그인하세요
+              {t('subtitle')}
             </p>
           </div>
         </div>
 
-        {/* Login Form */}
         {!showMfaInput ? (
           <form
             className="flex flex-col gap-4 px-6 pt-6 pb-6"
             onSubmit={handleSubmit}
           >
-            {/* ID Input */}
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  아이디 / 이메일
+                  {t('idLabel')}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
                 <input
                   type="text"
-                  placeholder="your-email@example.com"
+                  placeholder={t('idPlaceholder')}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
@@ -176,17 +163,16 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Password Input */}
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  비밀번호
+                  {t('passwordLabel')}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
                 <input
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t('passwordPlaceholder')}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -196,32 +182,29 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Error Message */}
             {error && (
               <p className="text-destructive text-sm">{error}</p>
             )}
 
-            {/* Login Button */}
             <button
               type="submit"
               disabled={loginInit.isPending || loginComplete.isPending}
               className="bg-primary h-9 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity text-primary-foreground font-medium text-sm"
             >
               {loginInit.isPending || loginComplete.isPending
-                ? "로그인 중..."
-                : "로그인"}
+                ? t('loginButtonLoading')
+                : t('loginButton')}
             </button>
 
-            {/* Sign Up Link */}
             <div className="flex items-center justify-center gap-1">
               <p className="font-normal leading-5 text-card-foreground text-sm text-center">
-                계정이 없으신가요?
+                {t('noAccount')}
               </p>
               <a
-                href="/signup"
+                href={getLocalePath(locale, ROUTES.SIGNUP)}
                 className="font-normal leading-5 text-primary text-sm text-center hover:underline"
               >
-                회원가입
+                {t('signupLink')}
               </a>
             </div>
           </form>
@@ -230,34 +213,32 @@ export default function LoginPage() {
             className="flex flex-col gap-4 px-6 pt-6 pb-6"
             onSubmit={handleSubmit}
           >
-            {/* Description */}
             <div className="text-center pb-2">
               <p className="font-normal leading-6 text-card-foreground text-base">
-                2단계 인증이 필요합니다
+                {t('mfaRequired')}
               </p>
               <p className="font-normal leading-5 text-muted-foreground text-sm mt-2">
-                인증 앱에서 6자리 코드를 입력하세요
+                {t('mfaDescription', { codeLength: UI_CONSTANTS.TOTP_CODE_LENGTH })}
               </p>
             </div>
 
-            {/* TOTP Code Input */}
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  인증 코드
+                  {t('verificationCodeLabel')}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-12 items-center overflow-hidden px-3 py-1 rounded-md justify-center">
                 <input
                   type="text"
-                  placeholder="000000"
+                  placeholder={t('verificationCodePlaceholder')}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-2xl w-full placeholder:text-muted-foreground text-center tracking-[0.5em]"
                   value={totpCode}
                   onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                    const value = e.target.value.replace(/\D/g, "").slice(0, UI_CONSTANTS.TOTP_CODE_LENGTH);
                     setTotpCode(value);
                   }}
-                  maxLength={6}
+                  maxLength={UI_CONSTANTS.TOTP_CODE_LENGTH}
                   required
                   autoComplete="one-time-code"
                   inputMode="numeric"
@@ -265,27 +246,24 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Error Message */}
             {error && (
               <p className="text-destructive text-sm">{error}</p>
             )}
 
-            {/* Verify Button */}
             <button
               type="submit"
-              disabled={loginMfaComplete.isPending || totpCode.length !== 6}
+              disabled={loginMfaComplete.isPending || totpCode.length !== UI_CONSTANTS.TOTP_CODE_LENGTH}
               className="bg-primary h-9 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity text-primary-foreground font-medium text-sm"
             >
-              {loginMfaComplete.isPending ? "확인 중..." : "확인"}
+              {loginMfaComplete.isPending ? t('verifyButtonLoading') : t('verifyButton')}
             </button>
 
-            {/* Back Button */}
             <button
               type="button"
               onClick={handleBackToLogin}
               className="text-muted-foreground hover:text-card-foreground text-sm transition-colors"
             >
-              ← 로그인으로 돌아가기
+              {t('backToLogin')}
             </button>
           </form>
         )}

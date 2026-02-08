@@ -9,6 +9,7 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 
@@ -16,10 +17,11 @@ export function ThemeToggle() {
     return (
       <button
         className="relative h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors"
-        aria-label="Theme toggle"
+        aria-label="Toggle theme"
+        suppressHydrationWarning
       >
         <div className="absolute inset-0 flex items-center justify-center">
-          <Sun className="h-4 w-4" />
+          <div className="h-4 w-4" />
         </div>
       </button>
     )
@@ -30,6 +32,7 @@ export function ThemeToggle() {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="relative h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors"
       aria-label="Toggle theme"
+      suppressHydrationWarning
     >
       <div className="absolute inset-0 flex items-center justify-center">
         {theme === "dark" ? (

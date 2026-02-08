@@ -1,0 +1,166 @@
+{
+  "metadata": {
+    "title": "Mandacode Accounts",
+    "description": "Mandacode 계정 관리 서비스"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "submit": "제출",
+    "cancel": "취소",
+    "confirm": "확인",
+    "back": "뒤로",
+    "delete": "삭제",
+    "save": "저장",
+    "edit": "편집",
+    "change": "변경"
+  },
+  "home": {
+    "title": "Mandacode에 오신 것을 환영합니다",
+    "subtitle": "안전하고 편리한 계정 관리 서비스",
+    "description": "Mandacode는 개발자와 크리에이터를 위한 통합 계정 관리 플랫폼입니다. 하나의 계정으로 모든 서비스를 이용하세요.",
+    "features": {
+      "security": {
+        "title": "강력한 보안",
+        "description": "2단계 인증과 최신 암호화 기술로 계정을 보호합니다"
+      },
+      "convenience": {
+        "title": "편리한 관리",
+        "description": "직관적인 대시보드로 프로필과 보안 설정을 쉽게 관리하세요"
+      },
+      "integration": {
+        "title": "통합 서비스",
+        "description": "다양한 Mandacode 서비스를 하나의 계정으로 이용하세요"
+      }
+    },
+    "cta": {
+      "login": "로그인",
+      "signup": "회원가입",
+      "dashboard": "대시보드"
+    }
+  },
+  "login": {
+    "title": "로그인",
+    "subtitle": "Mandacode 계정으로 로그인하세요",
+    "idLabel": "아이디",
+    "idPlaceholder": "username",
+    "passwordLabel": "비밀번호",
+    "passwordPlaceholder": "••••••••",
+    "loginButton": "로그인",
+    "loginButtonLoading": "로그인 중...",
+    "noAccount": "계정이 없으신가요?",
+    "signupLink": "회원가입",
+    "mfaRequired": "2단계 인증이 필요합니다",
+    "mfaDescription": "인증 앱에서 {codeLength}자리 코드를 입력하세요",
+    "verificationCodeLabel": "인증 코드",
+    "verificationCodePlaceholder": "000000",
+    "verifyButton": "확인",
+    "verifyButtonLoading": "확인 중...",
+    "backToLogin": "← 로그인으로 돌아가기"
+  },
+  "signup": {
+    "title": "회원가입",
+    "subtitle": "Mandacode 계정을 만드세요",
+    "idLabel": "아이디",
+    "idPlaceholder": "username",
+    "passwordLabel": "비밀번호",
+    "passwordPlaceholder": "••••••••",
+    "passwordMinLength": "최소 {minLength}자 이상",
+    "confirmPasswordLabel": "비밀번호 확인",
+    "confirmPasswordPlaceholder": "••••••••",
+    "signupButton": "회원가입",
+    "signupButtonLoading": "가입 중...",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "loginLink": "로그인"
+  },
+  "signupComplete": {
+    "title": "회원가입 완료",
+    "description": "Mandacode 계정이 성공적으로 만들어졌습니다",
+    "message": "회원가입을 환영합니다! 이제 로그인하여 서비스를 이용할 수 있습니다.",
+    "loginButton": "로그인하러 가기"
+  },
+  "dashboard": {
+    "title": "계정 관리",
+    "logout": "로그아웃",
+    "logoutLoading": "로그아웃 중...",
+    "loading": "로딩 중...",
+    "tabs": {
+      "profile": "프로필",
+      "security": "보안"
+    },
+    "profile": {
+      "title": "프로필 정보",
+      "nickname": {
+        "label": "닉네임",
+        "placeholder": "새 닉네임 입력"
+      },
+      "bio": {
+        "label": "소개",
+        "placeholder": "소개를 입력하세요...",
+        "empty": "소개가 없습니다. 클릭하여 추가하세요."
+      },
+      "avatar": {
+        "title": "프로필 사진 변경",
+        "urlLabel": "이미지 URL",
+        "urlPlaceholder": "https://example.com/avatar.jpg",
+        "urlHelp": "이미지의 직접 링크(URL)를 입력하세요",
+        "cancel": "취소",
+        "confirm": "적용",
+        "confirmLoading": "적용 중...",
+        "buttonLabel": "변경"
+      },
+      "demoNickname": "테스트 사용자",
+      "demoBio": "데모 계정입니다"
+    },
+    "security": {
+      "title": "비밀번호 변경",
+      "currentPassword": {
+        "label": "현재 비밀번호",
+        "placeholder": "현재 비밀번호 입력"
+      },
+      "newPassword": {
+        "label": "새 비밀번호",
+        "placeholder": "새 비밀번호 입력"
+      },
+      "confirmPassword": {
+        "label": "새 비밀번호 확인",
+        "placeholder": "새 비밀번호 다시 입력"
+      },
+      "submitButton": "비밀번호 변경",
+      "submitting": "변경 중...",
+      "success": "비밀번호가 성공적으로 변경되었습니다."
+    },
+    "mfa": {
+      "title": "2단계 인증",
+      "description": "계정 보안을 강화하기 위해 2단계 인증을 설정하세요",
+      "enabled": "활성화된 인증",
+      "addButton": "인증 추가",
+      "namePlaceholder": "인증 이름 (예: 내 폰)",
+      "verifyDescription": "QR 코드를 스캔하거나 인증 앱에서 제공하는 코드를 입력하세요",
+      "codePlaceholder": "000000",
+      "verifyButton": "확인",
+      "verifying": "확인 중...",
+      "deleteButton": "삭제",
+      "deleteConfirm": "정말 이 인증을 삭제하시겠습니까?",
+      "noDevices": "등록된 MFA 기기가 없습니다"
+    },
+    "dangerZone": {
+      "title": "위험 영역",
+      "deleteAccount": {
+        "title": "계정 삭제",
+        "description": "계정을 삭제하면 모든 데이터가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
+        "button": "계정 삭제",
+        "modalTitle": "계정 삭제",
+        "modalDescription": "계정 삭제를 확인하려면 아래에 '계정 삭제'를 정확히 입력하세요.",
+        "confirmationLabel": "확인을 위해 '계정 삭제'를 입력하세요",
+        "confirmationPlaceholder": "계정 삭제",
+        "cancel": "취소",
+        "confirmButton": "계정 삭제",
+        "confirming": "삭제 중...",
+        "error": "'계정 삭제'를 정확히 입력해주세요."
+      }
+    }
+  },
+  "languageSwitcher": {
+    "label": "언어 변경"
+  }
+}
