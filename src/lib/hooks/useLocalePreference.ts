@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { useLocale } from "next-intl";
-import { locales, type Locale, defaultLocale } from "@/i18n/config";
+import { useEffect } from "react";
+import { defaultLocale, type Locale, locales } from "@/i18n/config";
 
 /**
  * Hook to manage locale preference from localStorage

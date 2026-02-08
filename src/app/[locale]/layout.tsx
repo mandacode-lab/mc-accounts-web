@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
+import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { Providers } from "@/lib/providers";
 import { locales } from "@/i18n/config";
+import { Providers } from "@/lib/providers";
 import "@/app/globals.css";
 
 const geistSans = Geist({

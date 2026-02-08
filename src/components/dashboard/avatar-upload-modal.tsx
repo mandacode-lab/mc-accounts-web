@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Modal } from "@/components/ui/modal";
+import { useState } from "react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 
 interface AvatarUploadModalProps {
   isOpen: boolean;
@@ -55,16 +55,19 @@ export function AvatarUploadModal({
 
       {/* URL Input */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-card-foreground">
+        <label
+          htmlFor="avatar-url"
+          className="text-sm font-medium text-card-foreground"
+        >
           {t("urlLabel")}
         </label>
         <input
+          id="avatar-url"
           type="url"
           value={avatarUrl}
           onChange={(e) => setAvatarUrl(e.target.value)}
           placeholder={t("urlPlaceholder")}
           className="w-full px-3 py-2 bg-input border-0 rounded-md text-card-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          autoFocus
           disabled={isUploading}
         />
         <p className="text-xs text-muted-foreground">{t("urlHelp")}</p>

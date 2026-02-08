@@ -1,12 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { ROUTES, getLocalePath } from "@/lib/constants";
+import { useLocale, useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getLocalePath, ROUTES } from "@/lib/constants";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -63,6 +62,8 @@ export default function Home() {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  role="img"
+                  aria-label="Security icon"
                 >
                   <path
                     strokeLinecap="round"
@@ -87,6 +88,8 @@ export default function Home() {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  role="img"
+                  aria-label="Settings icon"
                 >
                   <path
                     strokeLinecap="round"
@@ -117,6 +120,8 @@ export default function Home() {
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  role="img"
+                  aria-label="Integration icon"
                 >
                   <path
                     strokeLinecap="round"
@@ -138,6 +143,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             {isAuthenticated() ? (
               <button
+                type="button"
                 onClick={handleDashboard}
                 className="bg-primary text-primary-foreground hover:opacity-90 transition-opacity px-8 py-3 rounded-md font-medium text-base w-full sm:w-auto"
               >
@@ -146,12 +152,14 @@ export default function Home() {
             ) : (
               <>
                 <button
+                  type="button"
                   onClick={handleLogin}
                   className="bg-primary text-primary-foreground hover:opacity-90 transition-opacity px-8 py-3 rounded-md font-medium text-base w-full sm:w-auto"
                 >
                   {t("cta.login")}
                 </button>
                 <button
+                  type="button"
                   onClick={handleSignup}
                   className="border border-border bg-card hover:bg-accent transition-colors px-8 py-3 rounded-md font-medium text-base text-card-foreground w-full sm:w-auto"
                 >

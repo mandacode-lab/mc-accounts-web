@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface InlineEditableFieldProps {
   value: string | null;
@@ -23,6 +23,7 @@ export function InlineEditableField({
   const [editingValue, setEditingValue] = useState(value || "");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const inputId = `editable-${label?.replace(/\s+/g, "-") || "field"}`;
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -61,12 +62,15 @@ export function InlineEditableField({
   return (
     <div className={className}>
       {label && (
-        <label className="text-sm text-muted-foreground">{label}</label>
+        <label htmlFor={inputId} className="text-sm text-muted-foreground">
+          {label}
+        </label>
       )}
       {isEditing ? (
         multiline ? (
           <div className="space-y-2 mt-1">
             <textarea
+              id={inputId}
               ref={inputRef as React.RefObject<HTMLTextAreaElement>}
               value={editingValue}
               onChange={(e) => setEditingValue(e.target.value)}
@@ -94,6 +98,7 @@ export function InlineEditableField({
         ) : (
           <div className="flex items-center gap-2 mt-1">
             <input
+              id={inputId}
               ref={inputRef as React.RefObject<HTMLInputElement>}
               type="text"
               value={editingValue}
@@ -109,8 +114,9 @@ export function InlineEditableField({
           </div>
         )
       ) : (
-        <div
-          className="mt-1 p-2 rounded-md hover:bg-accent cursor-pointer transition-colors"
+        <button
+          type="button"
+          className="mt-1 p-2 rounded-md hover:bg-accent cursor-pointer transition-colors w-full text-left"
           onClick={() => setIsEditing(true)}
         >
           {multiline ? (
@@ -120,7 +126,7 @@ export function InlineEditableField({
               {value || emptyText}
             </p>
           )}
-        </div>
+        </button>
       )}
     </div>
   );

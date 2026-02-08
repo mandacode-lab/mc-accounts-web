@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
-import { useAuthStore } from "@/lib/store/auth";
 import { postV1TokenRefresh } from "@/lib/api/auth";
+import { useAuthStore } from "@/lib/store/auth";
 
 /**
  * Global hook to handle automatic token refresh on 401 errors
@@ -32,9 +32,9 @@ export function useApiRefresh() {
         useAuthStore.getState().setAccessToken(newAccessToken);
 
         // Notify all queued requests
-        refreshSubscribers.current.forEach((callback) =>
-          callback(newAccessToken),
-        );
+        refreshSubscribers.current.forEach((callback) => {
+          callback(newAccessToken);
+        });
         refreshSubscribers.current = [];
 
         return newAccessToken;

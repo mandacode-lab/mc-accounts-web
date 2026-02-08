@@ -1,7 +1,7 @@
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { getLocalePath, ROUTES } from "@/lib/constants";
 import { useAuthStore } from "@/lib/store/auth";
-import { ROUTES, getLocalePath } from "@/lib/constants";
 
 export function useAuth() {
   const router = useRouter();

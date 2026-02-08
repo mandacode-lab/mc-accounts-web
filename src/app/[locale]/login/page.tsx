@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   usePostV1Login,
   usePostV1LoginCompleteNoMfa,
@@ -10,17 +13,14 @@ import {
   usePostV1TokenRefresh,
 } from "@/lib/api/auth";
 import type { InternalAdapterHttpHandlerAuthLoginInitLoginRequest } from "@/lib/api/schemas/auth";
-import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/lib/hooks/useAuth";
 import {
+  getLocalePath,
   HTTP_STATUS,
   ROUTES,
   UI_CONSTANTS,
-  getLocalePath,
 } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export default function LoginPage() {
   const t = useTranslations("login");
@@ -75,14 +75,19 @@ export default function LoginPage() {
           setLoginToken(refreshResponse.data.access_token);
           router.push(getLocalePath(locale, ROUTES.DASHBOARD));
         }
-      } catch (error) {
+      } catch (_error) {
         // No valid session, clear any stale tokens
         console.log("No valid session found");
       }
     };
 
     checkExistingSession();
-  }, []); // Run only on mount
+  }, [
+    locale,
+    router.push, // Valid session exists, redirect to dashboard
+    setLoginToken,
+    tokenRefresh.mutateAsync,
+  ]); // Run only on mount
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();

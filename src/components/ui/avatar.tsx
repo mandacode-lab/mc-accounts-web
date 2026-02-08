@@ -56,12 +56,14 @@ export function Avatar({
       )}
 
       {editable && onEdit && (
-        <div
-          className="absolute inset-0 rounded-full bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+        <button
+          type="button"
+          className="absolute inset-0 rounded-full bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer border-0"
           onClick={onEdit}
+          aria-label="Change avatar"
         >
           <span className="text-white text-xs font-medium">변경</span>
-        </div>
+        </button>
       )}
     </div>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import Link from "next/link";
-import { ROUTES, getLocalePath } from "@/lib/constants";
+import { useLocale, useTranslations } from "next-intl";
+import { getLocalePath, ROUTES } from "@/lib/constants";
 
 export default function SignupCompletePage() {
   const t = useTranslations("signupComplete");

@@ -1,9 +1,9 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/routing";
-import { useState, useEffect } from "react";
-import { locales, localeNames, type Locale } from "@/i18n/config";
+import { useEffect, useState } from "react";
+import { type Locale, localeNames, locales } from "@/i18n/config";
+import { usePathname, useRouter } from "@/i18n/routing";
 
 export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
@@ -32,6 +32,7 @@ export function LanguageSwitcher() {
   if (!isClient) {
     return (
       <button
+        type="button"
         className="px-3 py-1.5 rounded-md text-sm font-medium border border-border bg-card hover:bg-accent transition-colors"
         disabled
       >
@@ -42,6 +43,7 @@ export function LanguageSwitcher() {
 
   return (
     <button
+      type="button"
       onClick={() => switchLocale(nextLocale)}
       className="px-3 py-1.5 rounded-md text-sm font-medium border border-border bg-card hover:bg-accent transition-colors"
       aria-label={`Switch to ${localeNames[nextLocale]}`}

@@ -5,7 +5,7 @@
  * Accounts management service API
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,6 +20,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import type {
   InternalAdapterHttpHandlerMfaAssignTOTPRequest,

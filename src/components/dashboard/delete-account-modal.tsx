@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import { Modal } from "@/components/ui/modal";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Modal } from "@/components/ui/modal";
 import { ERROR_MESSAGES } from "@/lib/errors";
 
 interface DeleteAccountModalProps {

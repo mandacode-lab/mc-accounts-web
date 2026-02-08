@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { usePostV1Register } from "@/lib/api/accounts";
-import { useQueryClient } from "@tanstack/react-query";
 import {
+  getLocalePath,
   HTTP_STATUS,
   ROUTES,
   UI_CONSTANTS,
-  getLocalePath,
 } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function SignupPage() {
   const t = useTranslations("signup");

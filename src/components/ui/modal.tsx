@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface ModalProps {
@@ -35,6 +35,7 @@ export function Modal({
               {title}
             </h2>
             <button
+              type="button"
               onClick={onClose}
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Close modal"

@@ -16,6 +16,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <button
+        type="button"
         className="relative h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors"
         aria-label="Toggle theme"
         suppressHydrationWarning
@@ -29,6 +30,7 @@ export function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="relative h-9 w-9 rounded-md border border-border bg-card hover:bg-accent transition-colors"
       aria-label="Toggle theme"

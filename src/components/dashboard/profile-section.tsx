@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
 import { InlineEditableField } from "@/components/shared";
+import { Avatar } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface ProfileSectionProps {
   avatarUrl: string | null;

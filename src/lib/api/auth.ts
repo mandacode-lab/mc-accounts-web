@@ -5,13 +5,14 @@
  * Authentication service API
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from "@tanstack/react-query";
+
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import type {
   InternalAdapterHttpHandlerAuthLoginInitLoginRequest,
