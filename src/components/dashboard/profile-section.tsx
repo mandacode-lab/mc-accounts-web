@@ -22,12 +22,12 @@ export function ProfileSection({
   bio,
   onBioSave,
 }: ProfileSectionProps) {
-  const t = useTranslations('dashboard.profile');
+  const t = useTranslations("dashboard.profile");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('title')}</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         {/* Avatar */}
@@ -43,20 +43,20 @@ export function ProfileSection({
 
         {/* Nickname with inline editing */}
         <InlineEditableField
-          label={t('nickname.label')}
+          label={t("nickname.label")}
           value={nickname}
           onSave={onNicknameSave}
-          placeholder={t('nickname.placeholder')}
+          placeholder={t("nickname.placeholder")}
         />
 
         {/* Bio with inline editing */}
         <InlineEditableField
-          label={t('bio.label')}
+          label={t("bio.label")}
           value={bio}
           onSave={onBioSave}
-          placeholder={t('bio.placeholder')}
+          placeholder={t("bio.placeholder")}
           multiline
-          emptyText={t('bio.empty')}
+          emptyText={t("bio.empty")}
         />
       </CardContent>
     </Card>

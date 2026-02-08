@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from 'react';
-import { useLocale } from 'next-intl';
-import { locales, type Locale, defaultLocale } from '@/i18n/config';
+import { useEffect } from "react";
+import { useLocale } from "next-intl";
+import { locales, type Locale, defaultLocale } from "@/i18n/config";
 
 /**
  * Hook to manage locale preference from localStorage
@@ -13,8 +13,8 @@ export function useLocalePreference() {
 
   useEffect(() => {
     // Save current locale to localStorage whenever it changes
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('preferred-locale', locale);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("preferred-locale", locale);
     }
   }, [locale]);
 }
@@ -24,17 +24,17 @@ export function useLocalePreference() {
  * This is a utility function that can be used in server components
  */
 export function getPreferredLocale(): Locale {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return defaultLocale;
   }
 
-  const stored = localStorage.getItem('preferred-locale');
+  const stored = localStorage.getItem("preferred-locale");
   if (stored && locales.includes(stored as Locale)) {
     return stored as Locale;
   }
 
   // Fallback to browser language
-  const browserLang = navigator.language.split('-')[0];
+  const browserLang = navigator.language.split("-")[0];
   if (locales.includes(browserLang as Locale)) {
     return browserLang as Locale;
   }

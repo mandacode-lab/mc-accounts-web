@@ -76,12 +76,18 @@ export function InlineEditableField({
               placeholder={placeholder}
             />
             <div className="flex items-center justify-between">
-              <p className="text-xs text-muted-foreground">ESC를 누르면 취소됩니다</p>
+              <p className="text-xs text-muted-foreground">
+                ESC를 누르면 취소됩니다
+              </p>
               {saving && (
-                <span className="text-xs text-muted-foreground">저장 중...</span>
+                <span className="text-xs text-muted-foreground">
+                  저장 중...
+                </span>
               )}
               {saved && (
-                <span className="text-xs text-green-600 dark:text-green-400">✓ 저장됨</span>
+                <span className="text-xs text-green-600 dark:text-green-400">
+                  ✓ 저장됨
+                </span>
               )}
             </div>
           </div>
@@ -108,9 +114,7 @@ export function InlineEditableField({
           onClick={() => setIsEditing(true)}
         >
           {multiline ? (
-            <p className="text-card-foreground">
-              {value || emptyText}
-            </p>
+            <p className="text-card-foreground">{value || emptyText}</p>
           ) : (
             <p className="text-card-foreground font-medium">
               {value || emptyText}

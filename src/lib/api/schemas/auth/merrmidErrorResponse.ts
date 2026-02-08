@@ -5,7 +5,7 @@
  * Authentication service API
  * OpenAPI spec version: 1.0
  */
-import type { MerrErrCode } from './merrErrCode';
+import type { MerrErrCode } from "./merrErrCode";
 
 export interface MerrmidErrorResponse {
   code?: MerrErrCode;

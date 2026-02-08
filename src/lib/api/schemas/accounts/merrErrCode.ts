@@ -6,8 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type MerrErrCode = typeof MerrErrCode[keyof typeof MerrErrCode];
-
+export type MerrErrCode = (typeof MerrErrCode)[keyof typeof MerrErrCode];
 
 export const MerrErrCode = {
   ErrUnknown: 0,

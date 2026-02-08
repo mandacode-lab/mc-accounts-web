@@ -10,7 +10,14 @@ interface ModalProps {
   footer?: ReactNode;
 }
 
-export function Modal({ isOpen, onClose, title, titleClassName, children, footer }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  titleClassName,
+  children,
+  footer,
+}: ModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -19,7 +26,12 @@ export function Modal({ isOpen, onClose, title, titleClassName, children, footer
         <div className="flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-border">
-            <h2 className={cn("text-lg font-semibold text-card-foreground", titleClassName)}>
+            <h2
+              className={cn(
+                "text-lg font-semibold text-card-foreground",
+                titleClassName,
+              )}
+            >
               {title}
             </h2>
             <button
@@ -32,16 +44,10 @@ export function Modal({ isOpen, onClose, title, titleClassName, children, footer
           </div>
 
           {/* Content */}
-          <div className="p-6 space-y-4">
-            {children}
-          </div>
+          <div className="p-6 space-y-4">{children}</div>
 
           {/* Footer */}
-          {footer && (
-            <div className="p-6 pt-2">
-              {footer}
-            </div>
-          )}
+          {footer && <div className="p-6 pt-2">{footer}</div>}
         </div>
       </div>
     </div>

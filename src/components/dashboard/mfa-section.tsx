@@ -17,7 +17,9 @@ interface MFAItem {
 interface MfaSectionProps {
   mfaList: MFAItem[];
   isLoading: boolean;
-  onAdd: (name: string) => Promise<{ qr_code_url?: string; session_key?: string }>;
+  onAdd: (
+    name: string,
+  ) => Promise<{ qr_code_url?: string; session_key?: string }>;
   onVerify: (sessionKey: string, totpCode: string) => Promise<void>;
   onDelete: (mfaId: string) => Promise<void>;
   isAdding: boolean;
@@ -35,8 +37,8 @@ export function MfaSection({
   isVerifying,
   isDeleting,
 }: MfaSectionProps) {
-  const t = useTranslations('dashboard.mfa');
-  const tCommon = useTranslations('common');
+  const t = useTranslations("dashboard.mfa");
+  const tCommon = useTranslations("common");
   const [showAddMfa, setShowAddMfa] = useState(false);
   const [mfaName, setMfaName] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -97,7 +99,7 @@ export function MfaSection({
   };
 
   const handleDelete = async (mfaId: string) => {
-    if (!confirm(t('deleteConfirm'))) return;
+    if (!confirm(t("deleteConfirm"))) return;
 
     setError(null);
     try {
@@ -111,16 +113,12 @@ export function MfaSection({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('title')}</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground mb-4">
-          {t('description')}
-        </p>
+        <p className="text-sm text-muted-foreground mb-4">{t("description")}</p>
 
-        {error && (
-          <p className="text-destructive text-sm mb-4">{error}</p>
-        )}
+        {error && <p className="text-destructive text-sm mb-4">{error}</p>}
         {success && (
           <p className="text-green-600 dark:text-green-400 text-sm mb-4">
             ✓ MFA successfully added
@@ -129,19 +127,18 @@ export function MfaSection({
 
         {!showAddMfa ? (
           <div className="space-y-4">
-            <Button
-              onClick={() => setShowAddMfa(true)}
-              fullWidth
-            >
-              + {t('addButton')}
+            <Button onClick={() => setShowAddMfa(true)} fullWidth>
+              + {t("addButton")}
             </Button>
 
             <div className="space-y-2">
               <h3 className="text-sm font-medium text-muted-foreground">
-                {t('enabled')}
+                {t("enabled")}
               </h3>
               {isLoading ? (
-                <p className="text-sm text-muted-foreground">{tCommon('loading')}</p>
+                <p className="text-sm text-muted-foreground">
+                  {tCommon("loading")}
+                </p>
               ) : mfaList.length > 0 ? (
                 <div className="space-y-2">
                   {mfaList.map((mfa) => (
@@ -157,8 +154,12 @@ export function MfaSection({
                           {mfa.mfa_type}
                         </p>
                         {mfa.verified !== undefined && (
-                          <p className={`text-xs ${mfa.verified ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}>
-                            {mfa.verified ? '✓ Verified' : '⏳ Pending verification'}
+                          <p
+                            className={`text-xs ${mfa.verified ? "text-green-600 dark:text-green-400" : "text-yellow-600 dark:text-yellow-400"}`}
+                          >
+                            {mfa.verified
+                              ? "✓ Verified"
+                              : "⏳ Pending verification"}
                           </p>
                         )}
                       </div>
@@ -167,14 +168,14 @@ export function MfaSection({
                         disabled={isDeleting}
                         className="text-destructive hover:text-destructive-foreground text-sm disabled:opacity-50"
                       >
-                        {tCommon('delete')}
+                        {tCommon("delete")}
                       </button>
                     </div>
                   ))}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground italic">
-                  {t('noDevices')}
+                  {t("noDevices")}
                 </p>
               )}
             </div>
@@ -208,15 +209,11 @@ export function MfaSection({
                       value={totpCode}
                       onChange={(e) => setTotpCode(e.target.value)}
                       maxLength={6}
-                      placeholder={t('codePlaceholder')}
+                      placeholder={t("codePlaceholder")}
                       className="text-center text-lg tracking-widest"
                     />
-                    <Button
-                      type="submit"
-                      disabled={isVerifying}
-                      fullWidth
-                    >
-                      {isVerifying ? t('verifying') : t('verifyButton')}
+                    <Button type="submit" disabled={isVerifying} fullWidth>
+                      {isVerifying ? t("verifying") : t("verifyButton")}
                     </Button>
                   </form>
                 ) : (
@@ -231,7 +228,7 @@ export function MfaSection({
                     }}
                     fullWidth
                   >
-                    {tCommon('cancel')}
+                    {tCommon("cancel")}
                   </Button>
                 )}
               </div>
@@ -243,7 +240,7 @@ export function MfaSection({
                   value={mfaName}
                   onChange={(e) => setMfaName(e.target.value)}
                   required
-                  placeholder={t('namePlaceholder')}
+                  placeholder={t("namePlaceholder")}
                 />
 
                 <div className="space-y-2">
@@ -286,12 +283,9 @@ export function MfaSection({
                       setMfaName("");
                     }}
                   >
-                    {tCommon('cancel')}
+                    {tCommon("cancel")}
                   </Button>
-                  <Button
-                    type="submit"
-                    disabled={isAdding}
-                  >
+                  <Button type="submit" disabled={isAdding}>
                     {isAdding ? "Adding..." : "Add"}
                   </Button>
                 </div>

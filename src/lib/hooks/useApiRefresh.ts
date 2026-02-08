@@ -32,7 +32,9 @@ export function useApiRefresh() {
         useAuthStore.getState().setAccessToken(newAccessToken);
 
         // Notify all queued requests
-        refreshSubscribers.current.forEach((callback) => callback(newAccessToken));
+        refreshSubscribers.current.forEach((callback) =>
+          callback(newAccessToken),
+        );
         refreshSubscribers.current = [];
 
         return newAccessToken;
@@ -51,12 +53,12 @@ export function useApiRefresh() {
   }, []);
 
   const executeWithRefresh = useCallback(
-    async <T,>(
+    async <T>(
       apiCall: () => Promise<T>,
       options?: {
         onSuccess?: (data: T) => void;
         onError?: (error: unknown) => void;
-      }
+      },
     ): Promise<T | null> => {
       try {
         const result = await apiCall();
@@ -64,7 +66,11 @@ export function useApiRefresh() {
         return result;
       } catch (error: unknown) {
         // Check if it's a 401 error
-        const err = error as { response?: { status?: number }; status?: number; message?: string };
+        const err = error as {
+          response?: { status?: number };
+          status?: number;
+          message?: string;
+        };
         if (
           err?.response?.status === 401 ||
           err?.status === 401 ||
@@ -94,7 +100,7 @@ export function useApiRefresh() {
         return null;
       }
     },
-    [refreshAccessToken]
+    [refreshAccessToken],
   );
 
   return { executeWithRefresh, refreshAccessToken };

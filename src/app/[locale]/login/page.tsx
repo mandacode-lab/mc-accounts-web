@@ -3,17 +3,27 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { usePostV1Login, usePostV1LoginCompleteNoMfa, usePostV1LoginCompleteTotp, usePostV1TokenRefresh } from "@/lib/api/auth";
+import {
+  usePostV1Login,
+  usePostV1LoginCompleteNoMfa,
+  usePostV1LoginCompleteTotp,
+  usePostV1TokenRefresh,
+} from "@/lib/api/auth";
 import type { InternalAdapterHttpHandlerAuthLoginInitLoginRequest } from "@/lib/api/schemas/auth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { HTTP_STATUS, ROUTES, UI_CONSTANTS, getLocalePath } from "@/lib/constants";
+import {
+  HTTP_STATUS,
+  ROUTES,
+  UI_CONSTANTS,
+  getLocalePath,
+} from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
-  const t = useTranslations('login');
+  const t = useTranslations("login");
   const locale = useLocale();
   const router = useRouter();
   const [id, setId] = useState("");
@@ -26,18 +36,30 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
   const { login: setLoginToken } = useAuth();
 
-  const loginInit = usePostV1Login({
-    fetch: { credentials: 'include' as const }
-  }, queryClient);
-  const loginComplete = usePostV1LoginCompleteNoMfa({
-    fetch: { credentials: 'include' as const }
-  }, queryClient);
-  const loginMfaComplete = usePostV1LoginCompleteTotp({
-    fetch: { credentials: 'include' as const }
-  }, queryClient);
-  const tokenRefresh = usePostV1TokenRefresh({
-    fetch: { credentials: 'include' as const }
-  }, queryClient);
+  const loginInit = usePostV1Login(
+    {
+      fetch: { credentials: "include" as const },
+    },
+    queryClient,
+  );
+  const loginComplete = usePostV1LoginCompleteNoMfa(
+    {
+      fetch: { credentials: "include" as const },
+    },
+    queryClient,
+  );
+  const loginMfaComplete = usePostV1LoginCompleteTotp(
+    {
+      fetch: { credentials: "include" as const },
+    },
+    queryClient,
+  );
+  const tokenRefresh = usePostV1TokenRefresh(
+    {
+      fetch: { credentials: "include" as const },
+    },
+    queryClient,
+  );
 
   // Check existing session on mount
   useEffect(() => {
@@ -45,7 +67,10 @@ export default function LoginPage() {
       try {
         const refreshResponse = await tokenRefresh.mutateAsync(undefined);
 
-        if (refreshResponse.status === 200 && refreshResponse.data.access_token) {
+        if (
+          refreshResponse.status === 200 &&
+          refreshResponse.data.access_token
+        ) {
           // Valid session exists, redirect to dashboard
           setLoginToken(refreshResponse.data.access_token);
           router.push(getLocalePath(locale, ROUTES.DASHBOARD));
@@ -165,13 +190,13 @@ export default function LoginPage() {
 
           <div className="h-8">
             <p className="font-medium leading-8 text-card-foreground text-2xl text-center">
-              {t('title')}
+              {t("title")}
             </p>
           </div>
 
           <div>
             <p className="font-normal leading-6 text-muted-foreground text-base text-center">
-              {t('subtitle')}
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -184,13 +209,13 @@ export default function LoginPage() {
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  {t('idLabel')}
+                  {t("idLabel")}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
                 <input
                   type="text"
-                  placeholder={t('idPlaceholder')}
+                  placeholder={t("idPlaceholder")}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
@@ -203,13 +228,13 @@ export default function LoginPage() {
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  {t('passwordLabel')}
+                  {t("passwordLabel")}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-9 items-center overflow-hidden px-3 py-1 rounded-md">
                 <input
                   type="password"
-                  placeholder={t('passwordPlaceholder')}
+                  placeholder={t("passwordPlaceholder")}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-sm w-full placeholder:text-muted-foreground"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -219,9 +244,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {error && (
-              <p className="text-destructive text-sm">{error}</p>
-            )}
+            {error && <p className="text-destructive text-sm">{error}</p>}
 
             <button
               type="submit"
@@ -229,19 +252,19 @@ export default function LoginPage() {
               className="bg-primary h-9 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity text-primary-foreground font-medium text-sm"
             >
               {loginInit.isPending || loginComplete.isPending
-                ? t('loginButtonLoading')
-                : t('loginButton')}
+                ? t("loginButtonLoading")
+                : t("loginButton")}
             </button>
 
             <div className="flex items-center justify-center gap-1">
               <p className="font-normal leading-5 text-card-foreground text-sm text-center">
-                {t('noAccount')}
+                {t("noAccount")}
               </p>
               <a
                 href={getLocalePath(locale, ROUTES.SIGNUP)}
                 className="font-normal leading-5 text-primary text-sm text-center hover:underline"
               >
-                {t('signupLink')}
+                {t("signupLink")}
               </a>
             </div>
           </form>
@@ -252,27 +275,31 @@ export default function LoginPage() {
           >
             <div className="text-center pb-2">
               <p className="font-normal leading-6 text-card-foreground text-base">
-                {t('mfaRequired')}
+                {t("mfaRequired")}
               </p>
               <p className="font-normal leading-5 text-muted-foreground text-sm mt-2">
-                {t('mfaDescription', { codeLength: UI_CONSTANTS.TOTP_CODE_LENGTH })}
+                {t("mfaDescription", {
+                  codeLength: UI_CONSTANTS.TOTP_CODE_LENGTH,
+                })}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <div className="flex h-[14px] items-center">
                 <p className="font-medium leading-[14px] text-card-foreground text-sm">
-                  {t('verificationCodeLabel')}
+                  {t("verificationCodeLabel")}
                 </p>
               </div>
               <div className="bg-input border-0 flex h-12 items-center overflow-hidden px-3 py-1 rounded-md justify-center">
                 <input
                   type="text"
-                  placeholder={t('verificationCodePlaceholder')}
+                  placeholder={t("verificationCodePlaceholder")}
                   className="bg-transparent border-0 font-normal leading-none outline-none text-card-foreground text-2xl w-full placeholder:text-muted-foreground text-center tracking-[0.5em]"
                   value={totpCode}
                   onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, "").slice(0, UI_CONSTANTS.TOTP_CODE_LENGTH);
+                    const value = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, UI_CONSTANTS.TOTP_CODE_LENGTH);
                     setTotpCode(value);
                   }}
                   maxLength={UI_CONSTANTS.TOTP_CODE_LENGTH}
@@ -283,16 +310,19 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {error && (
-              <p className="text-destructive text-sm">{error}</p>
-            )}
+            {error && <p className="text-destructive text-sm">{error}</p>}
 
             <button
               type="submit"
-              disabled={loginMfaComplete.isPending || totpCode.length !== UI_CONSTANTS.TOTP_CODE_LENGTH}
+              disabled={
+                loginMfaComplete.isPending ||
+                totpCode.length !== UI_CONSTANTS.TOTP_CODE_LENGTH
+              }
               className="bg-primary h-9 rounded-md w-full disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity text-primary-foreground font-medium text-sm"
             >
-              {loginMfaComplete.isPending ? t('verifyButtonLoading') : t('verifyButton')}
+              {loginMfaComplete.isPending
+                ? t("verifyButtonLoading")
+                : t("verifyButton")}
             </button>
 
             <button
@@ -300,7 +330,7 @@ export default function LoginPage() {
               onClick={handleBackToLogin}
               className="text-muted-foreground hover:text-card-foreground text-sm transition-colors"
             >
-              {t('backToLogin')}
+              {t("backToLogin")}
             </button>
           </form>
         )}

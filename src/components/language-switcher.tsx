@@ -1,9 +1,9 @@
 "use client";
 
-import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from '@/i18n/routing';
-import { useState, useEffect } from 'react';
-import { locales, localeNames, type Locale } from '@/i18n/config';
+import { useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/routing";
+import { useState, useEffect } from "react";
+import { locales, localeNames, type Locale } from "@/i18n/config";
 
 export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
@@ -18,8 +18,8 @@ export function LanguageSwitcher() {
 
   const switchLocale = (newLocale: Locale) => {
     // Save to localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('preferred-locale', newLocale);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("preferred-locale", newLocale);
     }
 
     router.replace(pathname, { locale: newLocale });

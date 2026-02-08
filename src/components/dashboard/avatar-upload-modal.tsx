@@ -19,7 +19,7 @@ export function AvatarUploadModal({
   currentAvatarUrl,
   isUploading,
 }: AvatarUploadModalProps) {
-  const t = useTranslations('dashboard.profile.avatar');
+  const t = useTranslations("dashboard.profile.avatar");
   const [avatarUrl, setAvatarUrl] = useState("");
 
   const handleConfirm = () => {
@@ -33,50 +33,41 @@ export function AvatarUploadModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={t('title')}
+      title={t("title")}
       footer={
         <div className="flex gap-3 pt-2">
-          <Button
-            variant="outline"
-            onClick={onClose}
-            disabled={isUploading}
-          >
-            {t('cancel')}
+          <Button variant="outline" onClick={onClose} disabled={isUploading}>
+            {t("cancel")}
           </Button>
           <Button
             onClick={handleConfirm}
             disabled={isUploading || !avatarUrl.trim()}
           >
-            {isUploading ? t('confirmLoading') : t('confirm')}
+            {isUploading ? t("confirmLoading") : t("confirm")}
           </Button>
         </div>
       }
     >
       {/* Preview */}
       <div className="flex justify-center mb-6">
-        <Avatar
-          src={avatarUrl || currentAvatarUrl}
-          size="lg"
-        />
+        <Avatar src={avatarUrl || currentAvatarUrl} size="lg" />
       </div>
 
       {/* URL Input */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-card-foreground">
-          {t('urlLabel')}
+          {t("urlLabel")}
         </label>
         <input
           type="url"
           value={avatarUrl}
           onChange={(e) => setAvatarUrl(e.target.value)}
-          placeholder={t('urlPlaceholder')}
+          placeholder={t("urlPlaceholder")}
           className="w-full px-3 py-2 bg-input border-0 rounded-md text-card-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           autoFocus
           disabled={isUploading}
         />
-        <p className="text-xs text-muted-foreground">
-          {t('urlHelp')}
-        </p>
+        <p className="text-xs text-muted-foreground">{t("urlHelp")}</p>
       </div>
     </Modal>
   );

@@ -9,16 +9,19 @@ export function useAuth() {
   const accessToken = useAuthStore((state) => state.accessToken);
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
-  const login = useCallback((token: string) => {
-    setAccessToken(token);
-  }, [setAccessToken]);
+  const login = useCallback(
+    (token: string) => {
+      setAccessToken(token);
+    },
+    [setAccessToken],
+  );
 
   const logout = useCallback(() => {
     setAccessToken(null);
 
     // Extract locale from current pathname and preserve it
-    const segments = pathname.split('/');
-    const locale = segments[1] || 'ko';
+    const segments = pathname.split("/");
+    const locale = segments[1] || "ko";
     router.push(getLocalePath(locale, ROUTES.LOGIN));
   }, [setAccessToken, router, pathname]);
 
@@ -29,8 +32,8 @@ export function useAuth() {
   const requireAuth = useCallback(() => {
     if (!accessToken) {
       // Extract locale from current pathname
-      const segments = pathname.split('/');
-      const locale = segments[1] || 'ko';
+      const segments = pathname.split("/");
+      const locale = segments[1] || "ko";
       router.push(getLocalePath(locale, ROUTES.LOGIN));
       return false;
     }

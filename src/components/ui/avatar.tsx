@@ -34,19 +34,18 @@ export function Avatar({
 
   return (
     <div className={cn("relative", sizeClasses[size], className)}>
-      <div className={cn(
-        "rounded-full bg-muted border-2 border-border flex items-center justify-center overflow-hidden relative",
-        sizeClasses[size]
-      )}>
+      <div
+        className={cn(
+          "rounded-full bg-muted border-2 border-border flex items-center justify-center overflow-hidden relative",
+          sizeClasses[size],
+        )}
+      >
         {src ? (
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            className="object-cover"
-          />
+          <Image src={src} alt={alt} fill className="object-cover" />
         ) : (
-          <span className={cn("text-muted-foreground", textSizes[size])}>?</span>
+          <span className={cn("text-muted-foreground", textSizes[size])}>
+            ?
+          </span>
         )}
       </div>
 

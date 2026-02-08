@@ -1,5 +1,5 @@
-import { getRequestConfig } from 'next-intl/server';
-import { locales, type Locale, defaultLocale } from './config';
+import { getRequestConfig } from "next-intl/server";
+import { locales, type Locale, defaultLocale } from "./config";
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment
@@ -12,6 +12,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale: locale as string,
-    messages: (await import(`@/i18n/messages/${locale}.json`)).default
+    messages: (await import(`@/i18n/messages/${locale}.json`)).default,
   };
 });

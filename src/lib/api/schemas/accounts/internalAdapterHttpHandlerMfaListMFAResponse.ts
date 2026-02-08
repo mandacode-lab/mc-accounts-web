@@ -5,7 +5,7 @@
  * Accounts management service API
  * OpenAPI spec version: 1.0
  */
-import type { InternalAdapterHttpHandlerMfaMFAItemResponse } from './internalAdapterHttpHandlerMfaMFAItemResponse';
+import type { InternalAdapterHttpHandlerMfaMFAItemResponse } from "./internalAdapterHttpHandlerMfaMFAItemResponse";
 
 export interface InternalAdapterHttpHandlerMfaListMFAResponse {
   mfas?: InternalAdapterHttpHandlerMfaMFAItemResponse[];

@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
     return (
@@ -24,7 +24,7 @@ export function ThemeToggle() {
           <div className="h-4 w-4" />
         </div>
       </button>
-    )
+    );
   }
 
   return (
@@ -42,5 +42,5 @@ export function ThemeToggle() {
         )}
       </div>
     </button>
-  )
+  );
 }
