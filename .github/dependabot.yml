@@ -1,0 +1,52 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    # Allow Dependabot to use bun (experimental)
+    registries:
+      - npm
+    # Use bun-specific configuration if available
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      # Major updates that require manual review
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # Group dev dependencies
+      dev-dependencies:
+        patterns:
+          - "@types/*"
+          - "@biomejs/biome"
+          - "typescript"
+        exclude-patterns:
+          - "@types/react"
+          - "@types/react-dom"
+      # Group types separately
+      react-types:
+        patterns:
+          - "@types/react"
+          - "@types/react-dom"
+      # Group linting tools
+      linting:
+        patterns:
+          - "@biomejs/biome"
+          - "knip"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "dependabot"
+    pull-request-branch-name:
+      separator: "-"
