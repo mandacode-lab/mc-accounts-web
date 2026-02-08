@@ -79,6 +79,7 @@ jobs:
 
   docker-test:
     name: Docker Test
+    if: github.event_name == 'pull_request'
     needs: build
     uses: mandacode-lab/workflows/.github/workflows/docker-test.yml@v0.2.1
     with:
