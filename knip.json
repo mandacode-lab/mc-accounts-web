@@ -1,4 +1,26 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "tags": ["-lintignore"]
+  "tags": ["-lintignore"],
+  "entry": [
+    "src/app/**/*.tsx",
+    "src/components/**/*.tsx",
+    "src/lib/hooks/**/*.ts"
+  ],
+  "project": "src/**/*.ts*",
+  "ignore": [
+    "src/lib/api/**",
+    "src/i18n/**",
+    ".next/**",
+    "node_modules/**",
+    "orval.config.ts",
+    "src/lib/validations/**"
+  ],
+  "ignoreDependencies": [
+    "axios",
+    "ajv",
+    "orval",
+    "tsx",
+    "postcss",
+    "tailwindcss"
+  ]
 }

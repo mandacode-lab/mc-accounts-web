@@ -31,14 +31,3 @@ export const ERROR_MESSAGES = {
   UNKNOWN_ERROR: "알 수 없는 오류가 발생했습니다.",
   NETWORK_ERROR: "네트워크 오류가 발생했습니다.",
 } as const;
-
-export function getErrorMessage(
-  error: unknown,
-  fallback: string = ERROR_MESSAGES.UNKNOWN_ERROR,
-): string {
-  if (typeof error === "string") return error;
-  if (error && typeof error === "object" && "message" in error) {
-    return String(error.message);
-  }
-  return fallback;
-}
