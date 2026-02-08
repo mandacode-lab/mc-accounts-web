@@ -4,8 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { PageHeader } from "@/components/layout/page-header";
 import { usePostV1Register } from "@/lib/api/accounts";
 import {
   getLocalePath,
@@ -61,11 +60,7 @@ export default function SignupPage() {
 
   return (
     <div className="bg-secondary flex min-h-screen items-center justify-center p-4">
-      {/* Header controls */}
-      <div className="fixed top-4 right-4 flex items-center gap-2 z-50">
-        <LanguageSwitcher />
-        <ThemeToggle />
-      </div>
+      <PageHeader />
 
       <div className="bg-card border border-border rounded-lg w-full max-w-[448px]">
         <div className="flex flex-col gap-1.5 pt-6 px-6">

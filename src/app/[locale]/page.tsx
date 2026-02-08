@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { PageHeader } from "@/components/layout/page-header";
 import { getLocalePath, ROUTES } from "@/lib/constants";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -27,11 +26,7 @@ export default function Home() {
 
   return (
     <div className="bg-secondary min-h-screen">
-      {/* Header controls */}
-      <div className="fixed top-4 right-4 flex items-center gap-2 z-50">
-        <LanguageSwitcher />
-        <ThemeToggle />
-      </div>
+      <PageHeader />
 
       <div className="flex min-h-screen items-center justify-center px-4 py-12">
         <div className="max-w-4xl w-full">
