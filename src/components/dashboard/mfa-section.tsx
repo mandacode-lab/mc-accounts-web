@@ -1,13 +1,14 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { UI_CONSTANTS } from "@/lib/constants";
 import { ERROR_MESSAGES } from "@/lib/errors";
+import { MfaAddForm } from "./mfa-add-form";
+import { MfaDeviceList } from "./mfa-device-list";
+import { MfaQrVerify } from "./mfa-qr-verify";
 
-interface MFAItem {
+export interface MFAItem {
   mfa_id: string;
   name: string;
   mfa_type: string;
@@ -27,6 +28,10 @@ interface MfaSectionProps {
   isDeleting: boolean;
 }
 
+/**
+ * MfaSection - manages MFA device registration and verification
+ * Coordinates between device list, add form, and QR verification
+ */
 export function MfaSection({
   mfaList,
   isLoading,
@@ -38,7 +43,6 @@ export function MfaSection({
   isDeleting,
 }: MfaSectionProps) {
   const t = useTranslations("dashboard.mfa");
-  const tCommon = useTranslations("common");
   const [showAddMfa, setShowAddMfa] = useState(false);
   const [mfaName, setMfaName] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -98,16 +102,12 @@ export function MfaSection({
     }
   };
 
-  const handleDelete = async (mfaId: string) => {
-    if (!confirm(t("deleteConfirm"))) return;
-
-    setError(null);
-    try {
-      await onDelete(mfaId);
-    } catch (err) {
-      console.error("Delete MFA error:", err);
-      setError(ERROR_MESSAGES.MFA_DELETE_FAILED);
-    }
+  const handleCancel = () => {
+    setShowAddMfa(false);
+    setMfaName("");
+    setSuccess(false);
+    setQrCodeUri(null);
+    setSessionKey(null);
   };
 
   return (
@@ -131,164 +131,31 @@ export function MfaSection({
               + {t("addButton")}
             </Button>
 
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-muted-foreground">
-                {t("enabled")}
-              </h3>
-              {isLoading ? (
-                <p className="text-sm text-muted-foreground">
-                  {tCommon("loading")}
-                </p>
-              ) : mfaList.length > 0 ? (
-                <div className="space-y-2">
-                  {mfaList.map((mfa) => (
-                    <div
-                      key={mfa.mfa_id}
-                      className="flex items-center justify-between p-3 bg-muted rounded-md"
-                    >
-                      <div>
-                        <p className="text-sm font-medium text-card-foreground">
-                          {mfa.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {mfa.mfa_type}
-                        </p>
-                        {mfa.verified !== undefined && (
-                          <p
-                            className={`text-xs ${mfa.verified ? "text-green-600 dark:text-green-400" : "text-yellow-600 dark:text-yellow-400"}`}
-                          >
-                            {mfa.verified
-                              ? "✓ Verified"
-                              : "⏳ Pending verification"}
-                          </p>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(mfa.mfa_id)}
-                        disabled={isDeleting}
-                        className="text-destructive hover:text-destructive-foreground text-sm disabled:opacity-50"
-                      >
-                        {tCommon("delete")}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground italic">
-                  {t("noDevices")}
-                </p>
-              )}
-            </div>
+            <MfaDeviceList
+              mfaList={mfaList}
+              isLoading={isLoading}
+              isDeleting={isDeleting}
+              onDelete={onDelete}
+            />
           </div>
         ) : success && qrCodeUri ? (
-          <div className="space-y-4">
-            <div className="text-center">
-              <p className="text-sm font-medium text-card-foreground mb-2">
-                ✓ MFA device registered
-              </p>
-              <p className="text-xs text-muted-foreground mb-4">
-                Scan the QR code to register with your authenticator app
-              </p>
-            </div>
-            <div className="flex justify-center p-4 bg-white rounded-md">
-              <Image
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrCodeUri)}`}
-                alt="QR Code"
-                width={192}
-                height={192}
-                className="w-48 h-48"
-              />
-            </div>
-            {sessionKey ? (
-              <form onSubmit={handleVerify} className="space-y-4 pt-4">
-                <Input
-                  label={`Verification code (${UI_CONSTANTS.TOTP_CODE_LENGTH} digits)`}
-                  type="text"
-                  value={totpCode}
-                  onChange={(e) => setTotpCode(e.target.value)}
-                  maxLength={6}
-                  placeholder={t("codePlaceholder")}
-                  className="text-center text-lg tracking-widest"
-                />
-                <Button type="submit" disabled={isVerifying} fullWidth>
-                  {isVerifying ? t("verifying") : t("verifyButton")}
-                </Button>
-              </form>
-            ) : (
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => {
-                  setShowAddMfa(false);
-                  setSuccess(false);
-                  setQrCodeUri(null);
-                  setSessionKey(null);
-                }}
-                fullWidth
-              >
-                {tCommon("cancel")}
-              </Button>
-            )}
-          </div>
+          <MfaQrVerify
+            qrCodeUri={qrCodeUri}
+            sessionKey={sessionKey}
+            totpCode={totpCode}
+            isVerifying={isVerifying}
+            onTotpCodeChange={setTotpCode}
+            onVerify={handleVerify}
+            onCancel={handleCancel}
+          />
         ) : (
-          <form onSubmit={handleAdd} className="space-y-4">
-            <Input
-              label="Device name"
-              type="text"
-              value={mfaName}
-              onChange={(e) => setMfaName(e.target.value)}
-              required
-              placeholder={t("namePlaceholder")}
-            />
-
-            <div className="space-y-2">
-              <span className="text-sm font-medium text-card-foreground">
-                Authentication method
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  className="px-4 py-2 rounded-md text-sm bg-primary text-primary-foreground"
-                >
-                  TOTP
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  className="px-4 py-2 rounded-md text-sm bg-muted text-muted-foreground cursor-not-allowed"
-                >
-                  SMS
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  className="px-4 py-2 rounded-md text-sm bg-muted text-muted-foreground cursor-not-allowed"
-                >
-                  Email
-                </button>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Use an authenticator app like Google Authenticator
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setShowAddMfa(false);
-                  setMfaName("");
-                }}
-              >
-                {tCommon("cancel")}
-              </Button>
-              <Button type="submit" disabled={isAdding}>
-                {isAdding ? "Adding..." : "Add"}
-              </Button>
-            </div>
-          </form>
+          <MfaAddForm
+            mfaName={mfaName}
+            isAdding={isAdding}
+            onNameChange={setMfaName}
+            onSubmit={handleAdd}
+            onCancel={handleCancel}
+          />
         )}
       </CardContent>
     </Card>
