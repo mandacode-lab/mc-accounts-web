@@ -73,3 +73,17 @@ jobs:
 
       - name: Type check
         run: bunx tsc --noEmit
+
+  docker-test:
+    name: Docker Test
+    needs: build
+    uses: mandacode-lab/workflows/.github/workflows/docker-test.yml@v0.2.1
+    with:
+      images: |
+        [
+          {"dockerfile": "Dockerfile"},
+        ]
+      base-path: "build"
+      enable-hadolint: true
+      enable-trivy: true
+      trivy-severity: "HIGH,CRITICAL"
